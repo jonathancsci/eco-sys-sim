@@ -1,0 +1,4 @@
+
+
+class Ecosystem:
+    pass
