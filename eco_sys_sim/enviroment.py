@@ -67,4 +67,3 @@ class Enviroment:
                         "neighbors": self._find_neighbors((i, j)),
                     }
         return grid_map
-
