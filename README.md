@@ -1,4 +1,5 @@
 # EcoSysSim
+
 ## Set up the dev environment
 1. Create a venv named 'venv'
 ```bash
@@ -12,3 +13,6 @@ source venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
+
+## License
+This software is licensed under the [`MIT-0`](https://github.com/aws/mit-0) license. The intent is to effectively place this work in the public domain.
