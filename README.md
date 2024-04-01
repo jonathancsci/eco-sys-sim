@@ -14,9 +14,12 @@ class Ecosystem {
     + run_simulation(self) -> None
 }
 class Display {
-    _ax: matplotlib.axis
-    _x_array: np.ndarray
-    _y_array: np.ndarray
+    - _ax: matplotlib.axis
+    - _x_array: np.ndarray
+    - _y_array: np.ndarray
+    + ax: @property
+    + x_array: @property, @setter
+    + y_array: @property, @setter
 
     __init__(self, ax) -> Display
     update(self) -> None
