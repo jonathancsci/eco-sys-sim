@@ -1,30 +1,32 @@
+import numpy as np
 import random
+from .grid import Grid
 
 
-class Enviroment:
+class Environment:
     def __init__(self, rows, cols):
         self._rows = rows
         self._cols = cols
 
         self._obstacle_grid = self._create_obstacle_grid()
-        self._grid_map = self._create_grid_map()
+        #  self._grid_map = self._create_grid_map()
 
     # TODO: Remove unnecessary getters
-    @property
-    def rows(self):
-        return self._rows
+    # @property
+    # def rows(self):
+    #     return self._rows
 
-    @property
-    def cols(self):
-        return self._cols
+    # @property
+    # def cols(self):
+    #     return self._cols
 
-    @property
-    def obstacle_grid(self):
-        return self._obstacle_grid
+    # @property
+    # def obstacle_grid(self):
+    #     return self._obstacle_grid
 
-    @property
-    def grid_map(self):
-        return self._grid_map
+    # @property
+    # def grid_map(self):
+    #     return self._grid_map
 
     def _find_neighbors(self, grid_coords: tuple):
         neighbors = []
@@ -50,11 +52,11 @@ class Enviroment:
 
     def _create_obstacle_grid(self):
         # TODO: Switch to numpy arrays
-        obstacles = [[0 for _ in range(self.cols)] for _ in range(self.rows)]
-        for i in range(self.rows):
-            for j in range(self.cols):
+        obstacles = np.zeros((self._rows, self._cols), dtype=int)
+        for y in range(self._rows):
+            for x in range(self._cols):
                 if random.randint(0, 4) == 1:
-                    obstacles[i][j] = 1
+                    obstacles[y, x] = 1
         return obstacles
 
     def _create_grid_map(self):
@@ -62,11 +64,6 @@ class Enviroment:
         for i in range(self.rows):
             for j in range(self.cols):
                 if not self.obstacle_grid[i][j]:
-                    grid_map[(i, j)] = {
-                        # Grid class
-                        "occupants": list(),
-                        "grass_level": 50,
-                        "neighbors": self._find_neighbors((i, j)),
-                    }
+                    grid_map[(i, j)] = Grid()
         # TODO: Connect Grids
         return grid_map
