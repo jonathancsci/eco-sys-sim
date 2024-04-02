@@ -29,10 +29,12 @@ class Enviroment {
     - _cols: int
     - _obstacle_grid: list
     - _grid_map: dict[tuple, Grid]
+    - _observers: list
     + rows: @property
     + cols: @property
     + obstacle_grid: @property
     + grid_map: @property
+    + observers: @property, @setter
 
     + __init__(self, rows, cols) -> Enviroment
     - _find_neighbors(self, grid_coords) -> list[tuple]

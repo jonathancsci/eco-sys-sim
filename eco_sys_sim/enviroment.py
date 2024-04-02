@@ -9,6 +9,7 @@ class Enviroment:
         self._obstacle_grid = self._create_obstacle_grid()
         self._grid_map = self._create_grid_map()
 
+    # TODO: Remove unnecessary getters
     @property
     def rows(self):
         return self._rows
