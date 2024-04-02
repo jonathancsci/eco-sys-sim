@@ -1,6 +1,8 @@
 class Grid:
     def __init__(self):
-        self._neighbors = list()
+        self._occupants: list = list()
+        self._neighbors: list[Grid] = list()
+        self._grass_level: int = 50
 
     @property
     def neighbors(self):

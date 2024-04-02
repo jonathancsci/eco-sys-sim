@@ -5,13 +5,13 @@ from .grid import Grid
 
 class Environment:
     def __init__(self, rows, cols):
-        self._rows = rows
-        self._cols = cols
+        self._rows: int = rows
+        self._cols: int = cols
 
-        self._obstacle_grid = self._create_obstacle_grid()
-        self._grid_map = self._create_grid_map()
+        self._obstacle_grid: np.ndarray = self._create_obstacle_grid()
+        self._grid_map: dict[tuple, Grid] = self._create_grid_map()
 
-    def _find_neighbors(self, grid_coords: tuple):
+    def _find_neighbors(self, grid_coords: tuple) -> list[tuple]:
         neighbors = []
         j, i = grid_coords
         potential_neighbors = [
@@ -33,7 +33,7 @@ class Environment:
                 neighbors.append((y, x))
         return neighbors
 
-    def _create_obstacle_grid(self):
+    def _create_obstacle_grid(self) -> np.ndarray:
         obstacles = np.zeros((self._rows, self._cols), dtype=int)
         for y in range(self._rows):
             for x in range(self._cols):
@@ -41,7 +41,7 @@ class Environment:
                     obstacles[y, x] = 1
         return obstacles
 
-    def _create_grid_map(self):
+    def _create_grid_map(self) -> dict[tuple, Grid]:
         # Setup dictionary of Grids
         grid_map = dict()
         for y in range(self._rows):
@@ -60,3 +60,7 @@ class Environment:
             curr_grid.neighbors = neighbors_list
 
         return grid_map
+    
+    def _populate_grid_map(self) -> None:
+        # TODO
+        pass
