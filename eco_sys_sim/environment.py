@@ -7,6 +7,7 @@ class Environment:
     def __init__(self, rows, cols):
         self._rows: int = rows
         self._cols: int = cols
+        self._observers = list()
 
         self._obstacle_grid: np.ndarray = self._create_obstacle_grid()
         self._grid_map: dict[tuple, Grid] = self._create_grid_map()
@@ -63,6 +64,12 @@ class Environment:
 
     def _populate_grid_map(self) -> None:
         # TODO
+        pass
+
+    def attach(self):
+        pass
+
+    def _notify_observers(self):
         pass
 
     def step(self):
