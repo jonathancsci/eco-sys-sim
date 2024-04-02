@@ -2,6 +2,7 @@ import numpy as np
 from matplotlib.axes import Axes
 import matplotlib.pyplot as plt
 
+
 class Plot:
     def __init__(self):
         _, self._ax = plt.subplots()
