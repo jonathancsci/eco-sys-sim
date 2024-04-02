@@ -14,11 +14,10 @@ def main():
 
     enviroment = Environment(rows=5, cols=10)
     print(enviroment._obstacle_grid)
-    print(enviroment._find_neighbors((0,0)))
+    print(enviroment._find_neighbors((0, 0)))
     print(enviroment._grid_map[(0, 0)].neighbors)
     for neighbor in enviroment._find_neighbors((0, 0)):
         print(enviroment._grid_map[neighbor])
-
 
 
 if __name__ == "__main__":

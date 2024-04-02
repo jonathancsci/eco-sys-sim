@@ -1,5 +1,6 @@
 from eco_sys_sim.grid import Grid
 
+
 class TestGrid:
     @classmethod
     def setup_class(cls):

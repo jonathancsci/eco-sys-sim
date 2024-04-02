@@ -60,7 +60,7 @@ class Environment:
             curr_grid.neighbors = neighbors_list
 
         return grid_map
-    
+
     def _populate_grid_map(self) -> None:
         # TODO
         pass

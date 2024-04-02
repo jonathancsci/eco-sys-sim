@@ -7,7 +7,7 @@ class Grid:
     @property
     def occupants(self):
         return self._occupants
-    
+
     @occupants.setter
     def occupants(self, occupants_list):
         self._occupants = occupants_list
