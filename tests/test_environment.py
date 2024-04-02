@@ -30,5 +30,8 @@ class TestEnvironment:
         neighbors_list = grid.neighbors
         assert isinstance(neighbors_list, list)
 
-        first_neighbor = next(iter(neighbors_list))
-        assert isinstance(first_neighbor, Grid) or first_neighbor is None
+        if neighbors_list:
+            first_neighbor = neighbors_list[0]
+            assert isinstance(first_neighbor, Grid)
+        else:
+            assert len(neighbors_list) == 0
