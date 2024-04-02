@@ -30,24 +30,24 @@ class Environment:
 
     def _find_neighbors(self, grid_coords: tuple):
         neighbors = []
-        x, y = grid_coords
+        j, i = grid_coords
         potential_neighbors = [
-            (x - 1, y),
-            (x - 1, y + 1),
-            (x, y + 1),
-            (x + 1, y + 1),
-            (x + 1, y),
-            (x + 1, y - 1),
-            (x, y - 1),
-            (x - 1, y - 1),
+            (j, i - 1),
+            (j + 1, i - 1),
+            (j + 1, i),
+            (j + 1, i + 1),
+            (j, i + 1),
+            (j - 1, i + 1),
+            (j - 1, i),
+            (j - 1, i - 1),
         ]
-        for i, j in potential_neighbors:
+        for y, x in potential_neighbors:
             if (
-                0 <= i < self.rows
-                and 0 <= j < self.cols
-                and not self.obstacle_grid[i][j]
+                0 <= y < self._rows
+                and 0 <= x < self._cols
+                and not self._obstacle_grid[y, x]
             ):
-                neighbors.append((i, j))
+                neighbors.append((y, x))
         return neighbors
 
     def _create_obstacle_grid(self):

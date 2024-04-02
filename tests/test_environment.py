@@ -1,6 +1,7 @@
 import numpy as np
 from eco_sys_sim.environment import Environment
 
+
 class TestEnvironment:
     @classmethod
     def setup_class(cls):
@@ -15,3 +16,10 @@ class TestEnvironment:
         obstacle_grid_set = set(obstacle_grid.flatten())
         contains_only_ones_and_zeros = obstacle_grid_set == set([0, 1])
         assert contains_only_ones_and_zeros
+
+    def test_find_neighbors(self):
+        neighbors = self.instance._find_neighbors((0, 0))
+        # print(neighbors)
+        assert isinstance(neighbors, list)
+
+    
