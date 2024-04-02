@@ -19,3 +19,7 @@ class Grid:
     @neighbors.setter
     def neighbors(self, neighbors_list):
         self._neighbors = neighbors_list
+
+    def step(self):
+        # TODO
+        pass

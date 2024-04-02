@@ -64,3 +64,7 @@ class Environment:
     def _populate_grid_map(self) -> None:
         # TODO
         pass
+
+    def step(self):
+        # TODO
+        pass
