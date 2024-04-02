@@ -5,6 +5,14 @@ class Grid:
         self._grass_level: int = 50
 
     @property
+    def occupants(self):
+        return self._occupants
+    
+    @occupants.setter
+    def occupants(self, occupants_list):
+        self._occupants = occupants_list
+
+    @property
     def neighbors(self):
         return self._neighbors
 
