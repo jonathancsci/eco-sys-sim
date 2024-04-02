@@ -48,10 +48,9 @@ class Environment:
             for x in range(self._cols):
                 if not self._obstacle_grid[y, x]:
                     grid_map[(y, x)] = Grid()
-        
+
         # Connect Grids
         for curr_coords, curr_grid in grid_map.items():
-
             neighbor_coords = self._find_neighbors(curr_coords)
             neighbors_list: list[Grid] = []
 
@@ -59,5 +58,5 @@ class Environment:
                 neighbors_list.append(grid_map[neighbor_coord])
 
             curr_grid.neighbors = neighbors_list
-            
+
         return grid_map

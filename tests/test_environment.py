@@ -32,5 +32,3 @@ class TestEnvironment:
 
         first_neighbor = next(iter(neighbors_list))
         assert isinstance(first_neighbor, Grid) or first_neighbor is None
-
-    

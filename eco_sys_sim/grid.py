@@ -5,7 +5,7 @@ class Grid:
     @property
     def neighbors(self):
         return self._neighbors
-    
+
     @neighbors.setter
     def neighbors(self, neighbors_list):
         self._neighbors = neighbors_list
