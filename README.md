@@ -52,7 +52,7 @@ class Grid {
     + plant_food_level: @property, @setter
     + neighbors: @property, @setter
 
-    + __init__(self, neighbors) -> Grid
+    + __init__(self) -> Grid
     + step(self) -> None
     other methods() for animal behavior
 }

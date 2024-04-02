@@ -48,6 +48,7 @@ class Enviroment:
         return neighbors
 
     def _create_obstacle_grid(self):
+        # TODO: Switch to numpy arrays
         obstacles = [[0 for _ in range(self.cols)] for _ in range(self.rows)]
         for i in range(self.rows):
             for j in range(self.cols):
@@ -66,4 +67,5 @@ class Enviroment:
                         "grass_level": 50,
                         "neighbors": self._find_neighbors((i, j)),
                     }
+        # TODO: Connect Grids
         return grid_map
