@@ -9,24 +9,7 @@ class Environment:
         self._cols = cols
 
         self._obstacle_grid = self._create_obstacle_grid()
-        #  self._grid_map = self._create_grid_map()
-
-    # TODO: Remove unnecessary getters
-    # @property
-    # def rows(self):
-    #     return self._rows
-
-    # @property
-    # def cols(self):
-    #     return self._cols
-
-    # @property
-    # def obstacle_grid(self):
-    #     return self._obstacle_grid
-
-    # @property
-    # def grid_map(self):
-    #     return self._grid_map
+        self._grid_map = self._create_grid_map()
 
     def _find_neighbors(self, grid_coords: tuple):
         neighbors = []
@@ -51,7 +34,6 @@ class Environment:
         return neighbors
 
     def _create_obstacle_grid(self):
-        # TODO: Switch to numpy arrays
         obstacles = np.zeros((self._rows, self._cols), dtype=int)
         for y in range(self._rows):
             for x in range(self._cols):
@@ -60,10 +42,22 @@ class Environment:
         return obstacles
 
     def _create_grid_map(self):
+        # Setup dictionary of Grids
         grid_map = dict()
-        for i in range(self.rows):
-            for j in range(self.cols):
-                if not self.obstacle_grid[i][j]:
-                    grid_map[(i, j)] = Grid()
-        # TODO: Connect Grids
+        for y in range(self._rows):
+            for x in range(self._cols):
+                if not self._obstacle_grid[y, x]:
+                    grid_map[(y, x)] = Grid()
+        
+        # Connect Grids
+        for curr_coords, curr_grid in grid_map.items():
+
+            neighbor_coords = self._find_neighbors(curr_coords)
+            neighbors_list: list[Grid] = []
+
+            for neighbor_coord in neighbor_coords:
+                neighbors_list.append(grid_map[neighbor_coord])
+
+            curr_grid.neighbors = neighbors_list
+            
         return grid_map
