@@ -6,52 +6,42 @@ classDiagram
 class Ecosystem {
     - _fig: matplotlib.figure
     - _ax: matplotlib.axis
-    - _display: Display
-    - _enviroment: Enviroment
-    + enviroment: @property
+    - _plot: Plot
+    - _environment: Environment
 
     + __init__(self) -> Ecosystem
     + run_simulation(self) -> None
 }
-class Display {
+class Plot {
     - _ax: matplotlib.axis
-    - _x_array: np.ndarray
-    - _y_array: np.ndarray
-    + ax: @property
-    + x_array: @property, @setter
-    + y_array: @property, @setter
+    - _x_list: list
+    - _y_lists: list
 
     __init__(self, ax) -> Display
     update(self) -> None
 }
-class Enviroment {
+class Environment {
     - _rows: int
     - _cols: int
     - _obstacle_grid: list
     - _grid_map: dict[tuple, Grid]
     - _observers: list
-    + rows: @property
-    + cols: @property
-    + obstacle_grid: @property
-    + grid_map: @property
-    + observers: @property, @setter
 
-    + __init__(self, rows, cols) -> Enviroment
+    + __init__(self, rows, cols) -> Environment
     - _find_neighbors(self, grid_coords) -> list[tuple]
     - _create_obstacle_grid(self) -> list
     - _create_grid_map(self) -> dict[tuple, Grid]
-    - _populate_enviroment(self) -> None
-    + step(self) -> None
-    + count_animals(self) -> dict[str, int]
+    - _populate_grid_map(self) -> None
     + attach(self, observer) -> None
     - _notify_observers(self) -> None
+    + step(self) -> None
+    + count_animals(self) -> dict[str, int]
 }
 class Grid {
     - _occupants: list[Animal]
-    - _plant_food_level: int
     - _neighbors: list[Grid]
+    - _grass_level: int
     + occupants: @property, @setter
-    + plant_food_level: @property, @setter
     + neighbors: @property, @setter
 
     + __init__(self) -> Grid
