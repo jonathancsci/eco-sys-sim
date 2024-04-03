@@ -52,6 +52,8 @@ class Environment:
 
         # Connect Grids
         for curr_coords, curr_grid in grid_map.items():
+            curr_coords: tuple; curr_grid: Grid
+            
             neighbor_coords = self._find_neighbors(curr_coords)
             neighbors_list: list[Grid] = []
 
