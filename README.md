@@ -17,8 +17,8 @@ class Plot {
     - _x_list: list
     - _y_lists: list
 
-    __init__(self, ax) -> Display
-    update(self) -> None
+    + __init__(self, ax) -> Display
+    + update(self) -> None
 }
 class Environment {
     - _rows: int
