@@ -4,9 +4,8 @@ import matplotlib.pyplot as plt
 
 
 class Plot:
-    def __init__(self):
-        _, self._ax = plt.subplots()
-        self._ax: Axes
+    def __init__(self, ax: Axes):
+        self._ax: Axes = ax
         self._x_list = list()
         self._y_lists = list()
 
