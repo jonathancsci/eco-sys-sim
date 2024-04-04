@@ -3,3 +3,4 @@ pytest-cov
 ruff
 numpy
 matplotlib
+typer
