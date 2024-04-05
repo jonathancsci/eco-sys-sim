@@ -41,13 +41,13 @@ class Animal:
         self._preferences = preferences
 
     #full list of methods
-    def turn(self, room: Grid):
+    def step(self, room: Grid):
         self.preferences = dict.fromkeys(room.neighbors,0)
         self.preferences.update({room:0})
         for rm in self.preferences.keys():
             self.score_room(rm)
         target = max(self.preferences,key=self.preferences.get)
-        return MoveAction(self,room,target)
+        return MoveAction(self,self.size*.1,room,target)
                              
     def nutritional_value(self, room: Grid):
         return 2*self.size+self.energy

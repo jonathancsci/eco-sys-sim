@@ -20,8 +20,9 @@ class MoveAction(Action):
     def target_room(self, target_room):
         self._target_room = target_room
 
-    def __init__(self,animal,current_room,target_room):
+    def __init__(self,animal,cost,current_room,target_room):
         self._animal = animal
+        self._energy_cost = cost
         self._current_room = current_room
         self._target_room = target_room
 
