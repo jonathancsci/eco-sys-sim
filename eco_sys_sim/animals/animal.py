@@ -1,6 +1,7 @@
-from eco_sys_sim.actions import *
-from .animal import *
+from eco_sys_sim.actions.move_action import MoveAction
 from eco_sys_sim.grid import Grid
+from .rabbit import Rabbit
+from .fox import Fox
 
 class Animal:
     #energy that is spent on acitons and must be regaained through food
@@ -30,33 +31,23 @@ class Animal:
     def alive(self, alive):
         self._alive = alive
 
-    #list of predators the animal fears
+    #storage for current preferences
     @property
-    def fears(self):
-        return self._fears
+    def preferences(self):
+        return self._preferences
 
-    @fears.setter
-    def fears(self, fears):
-        self._fears = fears
-
-    #list of food sources the animal approaches
-    @property
-    def likes(self):
-        return self._likes
-
-    @likes.setter
-    def likes(self, likes):
-        self._likes = likes
+    @preferences.setter
+    def preferences(self, preferences):
+        self._preferences = preferences
 
     #full list of methods
-    def __init__(self):
-        self.fears = []
-        self.likes = []
-
     def turn(self, room: Grid):
-        room_blacklist = self.check_for_fears(room)
-        room_preference = self.check_for_food(room)
-        raise NotImplementedError
+        self.preferences = dict.fromkeys(room.neighbors,0)
+        self.preferences.update({room:0})
+        for rm in self.preferences.keys():
+            self.score_room(rm)
+        target = max(self.preferences,key=self.preferences.get)
+        return MoveAction(self,room,target)
                              
     def nutritional_value(self, room: Grid):
         return 2*self.size+self.energy
@@ -67,32 +58,5 @@ class Animal:
     def is_full(self):
         return self.energy > 3*self.size
     
-    def check_for_fears(self, room: Grid):
-        blacklist = []
-        for rm in room.neighbors:
-            for o in rm.occupants:
-                if o in self.fears:
-                    blacklist.append(rm.neighbors)
-        return blacklist
-    
-    def check_for_food(self, room: Grid):
-        target_room = room
-        high_score = self.score_room(room)
-        for rm in room.neighbors:
-            score = self.score_room(rm)
-            if(score > high_score):
-                target_room = rm
-                high_score = score
-
     def score_room(self, room: Grid):
         raise NotImplementedError
-    
-    def look_for_grass(self, room:Grid):
-        return room.grass_level
-
-    def look_for_prey(self, room:Grid):
-        score = 0
-        for o in room.occupants:
-            if(o in self.likes):
-                score += o.nutritional_value
-        return score

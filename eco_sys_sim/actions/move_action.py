@@ -1,3 +1,6 @@
+from . import Action
+
+
 class MoveAction(Action):
     #current room
     @property
@@ -15,6 +18,11 @@ class MoveAction(Action):
 
     @target_room.setter
     def target_room(self, target_room):
+        self._target_room = target_room
+
+    def __init__(self,animal,current_room,target_room):
+        self._animal = animal
+        self._current_room = current_room
         self._target_room = target_room
 
     def execute(self):

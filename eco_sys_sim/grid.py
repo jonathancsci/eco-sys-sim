@@ -28,6 +28,12 @@ class Grid:
     def grass_level(self, grass_level):
         self._grass_level = grass_level
 
+    def add_occupant(self, occupant):
+        self._occupants.append(occupant)
+
+    def remove_occupant(self, occupant):
+        self._occupants.remove(occupant)
+
     def step(self):
         # TODO
         pass
