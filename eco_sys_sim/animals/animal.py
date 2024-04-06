@@ -2,6 +2,7 @@ from eco_sys_sim.actions.move_action import MoveAction
 from eco_sys_sim.grid import Grid
 from .rabbit import Rabbit
 from .fox import Fox
+import random
 
 class Animal:
     #energy that is spent on acitons and must be regaained through food
@@ -48,7 +49,14 @@ class Animal:
             self.score_room(rm)
         target = max(self.preferences,key=self.preferences.get)
         return MoveAction(self,self.size*.1,room,target)
-                             
+
+    def score_room(self, room: Grid):
+        raise NotImplementedError
+    
+    def add_room_score(self,value,room):
+        if room in self.preferences.keys():
+            self.preferences[room] += value
+                    
     def nutritional_value(self, room: Grid):
         return 2*self.size+self.energy
     
@@ -58,5 +66,6 @@ class Animal:
     def is_full(self):
         return self.energy > 3*self.size
     
-    def score_room(self, room: Grid):
-        raise NotImplementedError
+    def dice_roll():
+        return random.randrange(1,6)
+    
