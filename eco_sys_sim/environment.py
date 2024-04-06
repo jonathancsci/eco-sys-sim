@@ -1,5 +1,7 @@
 import numpy as np
 import random
+from .animals.animal import Animal
+from .animals.rabbit import Rabbit
 from .grid import Grid
 
 
@@ -65,7 +67,9 @@ class Environment:
         return grid_map
 
     def _populate_grid_map(self) -> None:
-        # TODO
+        # TODO: replace with actual flexible creature population, possibly via builder pattern
+        for i in range(0,4):
+            self.get_random_room().add_occupant(Rabbit())
         pass
 
     def attach(self):
@@ -77,3 +81,11 @@ class Environment:
     def step(self):
         # TODO
         pass
+
+    def get_random_room(self):
+        x = random.randrange(0,self._rows)
+        y = random.randrange(0,self._cols)
+        return self.get_room(x,y)
+
+    def get_room(self, x, y):
+        return self._obstacle_grid[(x,y)]
