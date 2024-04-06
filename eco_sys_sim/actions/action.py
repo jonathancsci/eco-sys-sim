@@ -17,5 +17,10 @@ class Action:
     def energy_cost(self, energy_cost):
         self._energy_cost = energy_cost
     
-    def execute():
+    def execute(self):
+        if(self.animal.alive and self.animal.energy > energy_cost):
+            self.animal.energy -= self.energy_cost
+            self.action()
+        
+    def action(self):
         raise NotImplementedError
