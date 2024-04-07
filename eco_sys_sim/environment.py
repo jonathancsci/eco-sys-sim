@@ -15,6 +15,10 @@ class Environment:
         self._obstacle_grid: np.ndarray = self._create_obstacle_grid()
         self._grid_map: dict[tuple, Grid] = self._create_grid_map()
 
+    @property
+    def iter_counter(self):
+        return self._iter_counter
+
     def _find_neighbors(self, grid_coords: tuple) -> list[tuple]:
         neighbors = []
         j, i = grid_coords
