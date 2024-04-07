@@ -69,11 +69,34 @@ class Environment:
         # TODO
         pass
 
-    def attach(self):
-        pass
+    def attach(self, new_observer):
+        self._observers.append(new_observer)
 
     def _notify_observers(self):
-        pass
+        for observer in self._observers:
+            observer.update()
+
+    def _count_animal_populations(self) -> dict[str, int]:
+        population_counter: dict[str, int]  = {
+            animal: 0 for animal in self._animals_list
+        }
+        for grid in self._grid_map.values():
+            for occupant in grid.occupants:
+                match occupant:
+                    # case Bear:
+                    #     population_counter['bear'] += 1
+                    # case Wolf:
+                    #     population_counter['wolf'] += 1
+                    # case Fox:
+                    #     population_counter['fox'] += 1
+                    # case Deer:
+                    #     population_counter['deer'] += 1
+                    # case Rabbit:
+                    #     population_counter['rabbit'] += 1
+                    case _:
+                        raise ValueError("Unknown animal type")
+
+        return population_counter
 
     def step(self):
         # TODO
