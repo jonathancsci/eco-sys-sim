@@ -4,7 +4,7 @@ from matplotlib.lines import Line2D
 from collections import deque
 
 class Plot:
-    def __init__(self, ax: Axes, animals_list: list[str]):
+    def __init__(self, ax: Axes = plt.subplots()[1], animals_list: list[str] = ['bear', 'wolf', 'fox', 'deer', 'rabbit']):
         self._ax: Axes = ax
         self._x_iters: deque[int] = deque(maxlen=50)
         self._y_populations: dict[str, deque[int]] = {
