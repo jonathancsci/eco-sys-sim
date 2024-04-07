@@ -4,9 +4,10 @@ from .grid import Grid
 
 
 class Environment:
-    def __init__(self, rows, cols):
+    def __init__(self, rows: int = 5, cols: int = 10, animals_list: list[str] = ['bear', 'wolf', 'fox', 'deer', 'rabbit']):
         self._rows: int = rows
         self._cols: int = cols
+        self._animals_list = animals_list
         self._observers = list()
 
         self._obstacle_grid: np.ndarray = self._create_obstacle_grid()
