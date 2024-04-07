@@ -6,3 +6,5 @@ htmlcov
 __pycache__
 .DS_Store
 ignore.ipynb
+ignore.py
+animation.gif

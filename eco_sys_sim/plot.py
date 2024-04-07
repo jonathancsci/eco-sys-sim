@@ -9,5 +9,5 @@ class Plot:
             animal: deque() for animal in animals_list
         }
 
-    def update(self):
+    def update(self, curr_iter: int, animal_populations: dict[str, int]):
         pass

@@ -1,14 +1,16 @@
 import numpy as np
 import random
 from .grid import Grid
+from .plot import Plot
 
 
 class Environment:
     def __init__(self, rows: int = 5, cols: int = 10, animals_list: list[str] = ['bear', 'wolf', 'fox', 'deer', 'rabbit']):
         self._rows: int = rows
         self._cols: int = cols
-        self._animals_list = animals_list
-        self._observers = list()
+        self._animals_list: list[str] = animals_list
+        self._observers: list[Plot] = list()
+        self._iter_counter: int = 0
 
         self._obstacle_grid: np.ndarray = self._create_obstacle_grid()
         self._grid_map: dict[tuple, Grid] = self._create_grid_map()
@@ -55,7 +57,7 @@ class Environment:
         for curr_coords, curr_grid in grid_map.items():
             curr_coords: tuple; curr_grid: Grid
             
-            neighbor_coords = self._find_neighbors(curr_coords)
+            neighbor_coords: list[tuple] = self._find_neighbors(curr_coords)
             neighbors_list: list[Grid] = []
 
             for neighbor_coord in neighbor_coords:
@@ -69,12 +71,12 @@ class Environment:
         # TODO
         pass
 
-    def attach(self, new_observer):
+    def attach(self, new_observer: Plot):
         self._observers.append(new_observer)
 
-    def _notify_observers(self):
+    def _notify_observers(self, animal_populations: dict[str, int]):
         for observer in self._observers:
-            observer.update()
+            observer.update(self._iter_counter, animal_populations)
 
     def _count_animal_populations(self) -> dict[str, int]:
         population_counter: dict[str, int]  = {
