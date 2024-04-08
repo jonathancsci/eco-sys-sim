@@ -114,7 +114,7 @@ Environment *-- Animal
 
 Grid o-- Grid
 
-Animal <|.. Action
+Animal --> Action
 
 Animal <|-- Bear
 Animal <|-- Deer
