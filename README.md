@@ -4,6 +4,7 @@
 ```mermaid
 classDiagram
 class Ecosystem {
+    - _animals_list: list[str]
     - _fig: matplotlib.figure
     - _ax: matplotlib.axis
     - _plot: Plot
@@ -11,31 +12,38 @@ class Ecosystem {
 
     + __init__(self) -> Ecosystem
     + run_simulation(self) -> None
+    + step(self, max_iters) -> str
 }
 class Plot {
     - _ax: matplotlib.axis
-    - _x_list: list
-    - _y_lists: list
+    - _x_iters: list[int]
+    - _y_populations: dict[str, deque[int]]
+    - _plot_lines: dict[str, Line2D]
 
-    + __init__(self, ax) -> Display
-    + update(self) -> None
+    + __init__(self, ax, animals_list) -> Display
+    + update(self, curr_iter, animal_populations) -> None
 }
 class Environment {
     - _rows: int
     - _cols: int
+    - _animals_list: list[str]
+    - _observers: list[Plot]
+    - _iter_counter: int
     - _obstacle_grid: list
     - _grid_map: dict[tuple, Grid]
-    - _observers: list
+    + iter_counter: @property
 
-    + __init__(self, rows, cols) -> Environment
+    + __init__(self, rows, cols, animals_list) -> Environment
     - _find_neighbors(self, grid_coords) -> list[tuple]
     - _create_obstacle_grid(self) -> list
     - _create_grid_map(self) -> dict[tuple, Grid]
     - _populate_grid_map(self) -> None
-    + attach(self, observer) -> None
-    - _notify_observers(self) -> None
+    + attach(self, new_observer) -> None
+    - _notify_observers(self, animal_populations) -> None
+    - count_animal_populations(self) -> dict[str, int]
     + step(self) -> None
-    + count_animals(self) -> dict[str, int]
+    - _get_random_grid(self)
+    - _get_grid(self, x, y)
 }
 class Grid {
     - _occupants: list[Animal]
@@ -48,6 +56,77 @@ class Grid {
     + step(self) -> None
     other methods() for animal behavior
 }
+
+class Animal {
+    ...
+}
+
+class Bear {
+    ...
+}
+
+class Deer {
+    ...
+}
+
+class Fox {
+    ...
+}
+
+class Rabbit {
+    ...
+}
+
+class Wolf {
+    ...
+}
+
+class Action {
+    ...
+}
+
+class AttackAction {
+    ...
+}
+
+class EatAction {
+    ...
+}
+
+class GrazeAction {
+    ...
+}
+
+class MoveAction {
+    ...
+}
+
+class ReproduceAction {
+    ...
+}
+
+Ecosystem *-- Plot
+Ecosystem *-- Environment
+
+Environment *-- Grid
+Environment o-- Plot
+Environment *-- Animal
+
+Grid o-- Grid
+
+Animal <|.. Action
+
+Animal <|-- Bear
+Animal <|-- Deer
+Animal <|-- Fox
+Animal <|-- Rabbit
+Animal <|-- Wolf
+
+Action <|-- AttackAction
+Action <|-- EatAction
+Action <|-- GrazeAction
+Action <|-- MoveAction
+Action <|-- ReproduceAction
 
 ```
 
