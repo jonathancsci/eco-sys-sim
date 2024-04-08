@@ -82,7 +82,7 @@ class Environment:
     def _populate_grid_map(self) -> None:
         # TODO: replace with actual flexible creature population, possibly via builder pattern
         for i in range(0, 4):
-            self.get_random_room().add_occupant(Rabbit())
+            self.get_random_grid().add_occupant(Rabbit())
         pass
 
     def attach(self, new_observer: Plot):
@@ -118,10 +118,10 @@ class Environment:
         # TODO
         pass
 
-    def get_random_room(self):
+    def get_random_grid(self):
         x = random.randint(0, self._rows)
         y = random.randint(0, self._cols)
-        return self.get_room(x, y)
+        return self.get_grid(x, y)
 
-    def get_room(self, x, y):
+    def get_grid(self, x, y):
         return self._obstacle_grid[(x, y)]

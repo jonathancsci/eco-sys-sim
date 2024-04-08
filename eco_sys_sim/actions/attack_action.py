@@ -3,10 +3,10 @@ from .action import Action
 
 
 class AttackAction(Action):
-    # current room
+    # current grid
     @property
-    def current_room(self):
-        return self._current_room
+    def current_grid(self):
+        return self._current_grid
 
     # target animal to attack
     @property

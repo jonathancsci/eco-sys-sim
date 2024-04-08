@@ -48,20 +48,20 @@ class Animal:
         self._size = size
         self._energy = size*1.5
 
-    def step(self, room: Grid):
-        self.preferences = dict.fromkeys(room.neighbors, 0)
-        self.preferences.update({room: 0})
+    def step(self, grid: Grid):
+        self.preferences = dict.fromkeys(grid.neighbors, 0)
+        self.preferences.update({grid: 0})
         for rm in self.preferences.keys():
-            self.score_room(rm)
+            self.score_grid(rm)
         target = max(self.preferences, key=self.preferences.get)
-        return MoveAction(self, self.size * 0.1, room, target)
+        return MoveAction(self, self.size * 0.1, grid, target)
 
-    def score_room(self, room: Grid):
+    def score_grid(self, grid: Grid):
         raise NotImplementedError
 
-    def add_room_score(self, value, room):
-        if room in self.preferences.keys():
-            self.preferences[room] += value
+    def add_grid_score(self, value, grid):
+        if grid in self.preferences.keys():
+            self.preferences[grid] += value
 
     def nutritional_value(self):
         return 2 * self.size + self.energy
