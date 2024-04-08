@@ -2,22 +2,22 @@ from .action import Action
 
 
 class MoveAction(Action):
-    # current room
+    # current grid
     @property
-    def current_room(self):
-        return self._current_room
+    def current_grid(self):
+        return self._current_grid
 
-    # target room
+    # target grid
     @property
-    def target_room(self):
-        return self._target_room
+    def target_grid(self):
+        return self._target_grid
 
-    def __init__(self, animal, cost, current_room, target_room):
+    def __init__(self, animal, cost, current_grid, target_grid):
         self._animal = animal
         self._energy_cost = cost
-        self._current_room = current_room
-        self._target_room = target_room
+        self._current_grid = current_grid
+        self._target_grid = target_grid
 
     def action(self):
-        self.target_room.add_animal(self.animal)
-        self.current_room.remove_animal(self.animal)
+        self.target_grid.add_animal(self.animal)
+        self.current_grid.remove_animal(self.animal)

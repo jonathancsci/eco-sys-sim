@@ -42,29 +42,35 @@ class Animal:
         self._preferences = preferences
 
     # full list of methods
-    def step(self, room: Grid):
-        self.preferences = dict.fromkeys(room.neighbors, 0)
-        self.preferences.update({room: 0})
-        for rm in self.preferences.keys():
-            self.score_room(rm)
-        target = max(self.preferences, key=self.preferences.get)
-        return MoveAction(self, self.size * 0.1, room, target)
+    def __init__(self, size=3):
+        self._alive = True
+        self._preferences = {}
+        self._size = size
+        self._energy = size*1.5
 
-    def score_room(self, room: Grid):
+    def step(self, grid: Grid):
+        self.preferences = dict.fromkeys(grid.neighbors, 0)
+        self.preferences.update({grid: 0})
+        for rm in self.preferences.keys():
+            self.score_grid(rm)
+        target = max(self.preferences, key=self.preferences.get)
+        return MoveAction(self, self.size * 0.1, grid, target)
+
+    def score_grid(self, grid: Grid):
         raise NotImplementedError
 
-    def add_room_score(self, value, room):
-        if room in self.preferences.keys():
-            self.preferences[room] += value
+    def add_grid_score(self, value, grid):
+        if grid in self.preferences.keys():
+            self.preferences[grid] += value
 
-    def nutritional_value(self, room: Grid):
+    def nutritional_value(self):
         return 2 * self.size + self.energy
 
     def can_mate(self):
-        return self.energy > 2 * self.size
+        return self.energy >= 2 * self.size
 
     def is_full(self):
-        return self.energy > 3 * self.size
+        return self.energy >= 3 * self.size
 
     def dice_roll():
         return random.randint(1, 7)

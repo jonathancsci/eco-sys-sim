@@ -3,4 +3,4 @@ from .animal import Animal
 
 class Bear(Animal):
     def __init__(self):
-        self.size = 10
+        super().__init__(10)
