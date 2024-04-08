@@ -18,7 +18,7 @@ class Action:
         self._energy_cost = energy_cost
     
     def execute(self):
-        if(self.animal.alive and self.animal.energy > energy_cost):
+        if(self.animal.alive and self.animal.energy > self.energy_cost):
             self.animal.energy -= self.energy_cost
             self.action()
         
