@@ -2,6 +2,7 @@ from eco_sys_sim.animals.rabbit import Rabbit
 from eco_sys_sim.animals.fox import Fox
 from eco_sys_sim.animals.animal import Animal
 
+
 class TestAnimals:
     def test_size(self):
         rabbit = Rabbit()
@@ -15,7 +16,7 @@ class TestAnimals:
         rabbit.energy = 3
         assert rabbit.nutritional_value() == 7
         assert fox.nutritional_value() == 6
-    
+
     def test_can_mate(self):
         rabbit = Rabbit()
         fox = Fox()

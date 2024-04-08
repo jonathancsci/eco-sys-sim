@@ -7,7 +7,12 @@ from .plot import Plot
 
 
 class Environment:
-    def __init__(self, rows: int = 5, cols: int = 10, animals_list: list[str] = ['bear', 'wolf', 'fox', 'deer', 'rabbit']):
+    def __init__(
+        self,
+        rows: int = 5,
+        cols: int = 10,
+        animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit"],
+    ):
         self._rows: int = rows
         self._cols: int = cols
         self._animals_list: list[str] = animals_list
@@ -61,8 +66,9 @@ class Environment:
 
         # Connect Grids
         for curr_coords, curr_grid in grid_map.items():
-            curr_coords: tuple; curr_grid: Grid
-            
+            curr_coords: tuple
+            curr_grid: Grid
+
             neighbor_coords: list[tuple] = self._find_neighbors(curr_coords)
             neighbors_list: list[Grid] = []
 
@@ -75,7 +81,7 @@ class Environment:
 
     def _populate_grid_map(self) -> None:
         # TODO: replace with actual flexible creature population, possibly via builder pattern
-        for i in range(0,4):
+        for i in range(0, 4):
             self.get_random_room().add_occupant(Rabbit())
         pass
 
@@ -87,7 +93,7 @@ class Environment:
             observer.update(self._iter_counter, animal_populations)
 
     def _count_animal_populations(self) -> dict[str, int]:
-        population_counter: dict[str, int]  = {
+        population_counter: dict[str, int] = {
             animal: 0 for animal in self._animals_list
         }
         for grid in self._grid_map.values():
@@ -113,9 +119,9 @@ class Environment:
         pass
 
     def get_random_room(self):
-        x = random.randint(0,self._rows)
-        y = random.randint(0,self._cols)
-        return self.get_room(x,y)
+        x = random.randint(0, self._rows)
+        y = random.randint(0, self._cols)
+        return self.get_room(x, y)
 
     def get_room(self, x, y):
-        return self._obstacle_grid[(x,y)]
+        return self._obstacle_grid[(x, y)]
