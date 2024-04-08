@@ -4,7 +4,7 @@ from .rabbit import Rabbit
 
 class Fox(Animal):
     def __init__(self):
-        self.size = 3
+        super().__init__(3)
 
     def score_room(self, room):
         for o in room.occupants:

@@ -15,7 +15,7 @@ class TestAnimals:
         fox = Fox()
         rabbit.energy = 3
         assert rabbit.nutritional_value() == 7
-        assert fox.nutritional_value() == 6
+        assert fox.nutritional_value() == 10.5
 
     def test_can_mate(self):
         rabbit = Rabbit()

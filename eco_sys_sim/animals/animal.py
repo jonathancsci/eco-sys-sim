@@ -42,6 +42,12 @@ class Animal:
         self._preferences = preferences
 
     # full list of methods
+    def __init__(self, size=3):
+        self._alive = True
+        self._preferences = {}
+        self._size = size
+        self._energy = size*1.5
+
     def step(self, room: Grid):
         self.preferences = dict.fromkeys(room.neighbors, 0)
         self.preferences.update({room: 0})
@@ -57,14 +63,14 @@ class Animal:
         if room in self.preferences.keys():
             self.preferences[room] += value
 
-    def nutritional_value(self, room: Grid):
+    def nutritional_value(self):
         return 2 * self.size + self.energy
 
     def can_mate(self):
-        return self.energy > 2 * self.size
+        return self.energy >= 2 * self.size
 
     def is_full(self):
-        return self.energy > 3 * self.size
+        return self.energy >= 3 * self.size
 
     def dice_roll():
         return random.randint(1, 7)

@@ -3,7 +3,7 @@ from .animal import Animal
 
 class Rabbit(Animal):
     def __init__(self):
-        self.size = 2
+        super().__init__(2)
 
     def score_room(self, room):
         for o in room.occupants:
