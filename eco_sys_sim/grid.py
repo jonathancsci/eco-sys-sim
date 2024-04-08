@@ -2,7 +2,7 @@ class Grid:
     def __init__(self):
         self._occupants: list = list()
         self._neighbors: list[Grid] = list()
-        self._grass_level: int = 50
+        self._grass_level: int = 12
 
     @property
     def occupants(self):
@@ -19,6 +19,20 @@ class Grid:
     @neighbors.setter
     def neighbors(self, neighbors_list):
         self._neighbors = neighbors_list
+
+    @property
+    def grass_level(self):
+        return self._grass_level
+
+    @grass_level.setter
+    def grass_level(self, grass_level):
+        self._grass_level = grass_level
+
+    def add_occupant(self, occupant):
+        self._occupants.append(occupant)
+
+    def remove_occupant(self, occupant):
+        self._occupants.remove(occupant)
 
     def step(self):
         # TODO
