@@ -1,5 +1,5 @@
 import random
-from . import Action
+from .action import Action
 
 
 class AttackAction(Action):

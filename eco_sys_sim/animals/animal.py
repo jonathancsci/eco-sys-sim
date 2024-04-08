@@ -1,7 +1,6 @@
-from eco_sys_sim.actions.move_action import MoveAction
+from ..actions.move_action import MoveAction
+from ..actions.action import Action
 from eco_sys_sim.grid import Grid
-from .rabbit import Rabbit
-from .fox import Fox
 import random
 
 

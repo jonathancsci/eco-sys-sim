@@ -1,4 +1,4 @@
-from . import Action
+from .action import Action
 
 
 class MoveAction(Action):
