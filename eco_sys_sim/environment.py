@@ -113,8 +113,8 @@ class Environment:
         pass
 
     def get_random_room(self):
-        x = random.randrange(0,self._rows)
-        y = random.randrange(0,self._cols)
+        x = random.randint(0,self._rows)
+        y = random.randint(0,self._cols)
         return self.get_room(x,y)
 
     def get_room(self, x, y):

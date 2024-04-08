@@ -67,5 +67,5 @@ class Animal:
         return self.energy > 3*self.size
     
     def dice_roll():
-        return random.randrange(1,6)
+        return random.randint(1,7)
     
