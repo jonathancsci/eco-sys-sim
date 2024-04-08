@@ -3,16 +3,23 @@ import random
 from .animals.animal import Animal
 from .animals.rabbit import Rabbit
 from .grid import Grid
+from .plot import Plot
 
 
 class Environment:
-    def __init__(self, rows, cols):
+    def __init__(self, rows: int = 5, cols: int = 10, animals_list: list[str] = ['bear', 'wolf', 'fox', 'deer', 'rabbit']):
         self._rows: int = rows
         self._cols: int = cols
-        self._observers = list()
+        self._animals_list: list[str] = animals_list
+        self._observers: list[Plot] = list()
+        self._iter_counter: int = 0
 
         self._obstacle_grid: np.ndarray = self._create_obstacle_grid()
         self._grid_map: dict[tuple, Grid] = self._create_grid_map()
+
+    @property
+    def iter_counter(self):
+        return self._iter_counter
 
     def _find_neighbors(self, grid_coords: tuple) -> list[tuple]:
         neighbors = []
@@ -56,7 +63,7 @@ class Environment:
         for curr_coords, curr_grid in grid_map.items():
             curr_coords: tuple; curr_grid: Grid
             
-            neighbor_coords = self._find_neighbors(curr_coords)
+            neighbor_coords: list[tuple] = self._find_neighbors(curr_coords)
             neighbors_list: list[Grid] = []
 
             for neighbor_coord in neighbor_coords:
@@ -72,11 +79,34 @@ class Environment:
             self.get_random_room().add_occupant(Rabbit())
         pass
 
-    def attach(self):
-        pass
+    def attach(self, new_observer: Plot):
+        self._observers.append(new_observer)
 
-    def _notify_observers(self):
-        pass
+    def _notify_observers(self, animal_populations: dict[str, int]):
+        for observer in self._observers:
+            observer.update(self._iter_counter, animal_populations)
+
+    def _count_animal_populations(self) -> dict[str, int]:
+        population_counter: dict[str, int]  = {
+            animal: 0 for animal in self._animals_list
+        }
+        for grid in self._grid_map.values():
+            for occupant in grid.occupants:
+                match occupant:
+                    # case Bear:
+                    #     population_counter['bear'] += 1
+                    # case Wolf:
+                    #     population_counter['wolf'] += 1
+                    # case Fox:
+                    #     population_counter['fox'] += 1
+                    # case Deer:
+                    #     population_counter['deer'] += 1
+                    # case Rabbit:
+                    #     population_counter['rabbit'] += 1
+                    case _:
+                        raise ValueError("Unknown animal type")
+
+        return population_counter
 
     def step(self):
         # TODO
