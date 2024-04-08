@@ -85,6 +85,9 @@ class Environment:
             self.get_random_grid().add_occupant(Rabbit())
         pass
 
+    def add_animal_at(self, animal, x, y):
+        self.get_grid(x,y).add_occupant(animal)
+
     def attach(self, new_observer: Plot):
         self._observers.append(new_observer)
 
@@ -124,4 +127,7 @@ class Environment:
         return self.get_grid(x, y)
 
     def get_grid(self, x, y):
-        return self._obstacle_grid[(x, y)]
+        return self._grid_map[(x, y)]
+
+    def animal_at(self, animal, x, y):
+        return animal in self._grid_map[(x, y)].occupants

@@ -19,5 +19,5 @@ class MoveAction(Action):
         self._target_grid = target_grid
 
     def action(self):
-        self.target_grid.add_animal(self.animal)
-        self.current_grid.remove_animal(self.animal)
+        self.target_grid.add_occupant(self.animal)
+        self.current_grid.remove_occupant(self.animal)

@@ -1,7 +1,7 @@
 from .action import Action
 
 
-class ReproduceAction(Action):
+class GrazeAction(Action):
     # current grid
     @property
     def current_grid(self):
