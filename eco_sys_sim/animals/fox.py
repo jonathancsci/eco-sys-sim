@@ -1,5 +1,5 @@
 from .animal import Animal
-from .animal import Rabbit
+from .rabbit import Rabbit
 
 
 class Fox(Animal):
