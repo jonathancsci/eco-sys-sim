@@ -1,4 +1,4 @@
-from eco_sys_sim.environment import Environment
+from eco_sys_sim.grid import Grid
 from eco_sys_sim.animals.rabbit import Rabbit
 from eco_sys_sim.animals.fox import Fox
 from eco_sys_sim.animals.animal import Animal
@@ -10,16 +10,16 @@ from eco_sys_sim.actions.move_action import MoveAction
 from eco_sys_sim.actions.reproduce_action import ReproduceAction
 
 
-class TestAnimals:
+class TestActions:
     def test_move(self):
-        environment = Environment(rows=2, cols=1)
+        grid1 = Grid()
+        grid2 = Grid()
         rabbit = Rabbit()
-        environment.add_animal_at(rabbit,0,0)
-        print(environment._grid_map.keys())
-        action = MoveAction(rabbit,.2,environment.get_grid(0,0),environment.get_grid(1,0))
+        grid1.add_animal_at(rabbit,0,0)
+        action = MoveAction(rabbit,.2,grid1,grid2)
         action.execute()
-        assert environment.animal_at(rabbit,1,0)
-        assert not environment.animal_at(rabbit,0,0)
+        assert rabbit in grid2.occupants
+        assert not rabbit in grid1.occupants
         assert rabbit.energy == 2.8
     
     def test_attack(self):
@@ -39,37 +39,35 @@ class TestAnimals:
         assert not rabbit.alive
     
     def test_eat(self):
-        environment = Environment(rows=1, cols=1)
+        grid = Grid()
         fox = Fox()
         rabbit = Rabbit()
-        environment.add_animal_at(fox,0,0)
-        environment.add_animal_at(rabbit,0,0)
+        grid.add_animal_at(fox,0,0)
+        grid.add_animal_at(rabbit,0,0)
         rabbit.alive = False
-        print(environment._grid_map.keys())
-        action = EatAction(fox,rabbit,environment.get_grid(0,0))
+        action = EatAction(fox,rabbit,grid)
         action.execute()
-        assert environment.animal_at(fox,0,0)
-        assert not environment.animal_at(rabbit,0,0)
+        assert fox in grid.occupants
+        assert not rabbit in grid.occupants
         assert fox.energy == 11.5
     
     def test_graze(self):
-        environment = Environment(rows=1, cols=1)
+        grid = Grid()
         rabbit = Rabbit()
-        environment.add_animal_at(rabbit,0,0)
-        action = GrazeAction(rabbit,environment.get_grid(0,0))
+        grid.add_animal_at(rabbit,0,0)
+        action = GrazeAction(rabbit,grid)
         action.execute()
         assert rabbit.energy == 9
-        assert environment.get_grid(0,0).grass_level == 6
+        assert grid.grass_level == 6
     
     def test_reproduce(self):
-        environment = Environment(rows=2, cols=1)
+        grid = Grid()
         rabbit1 = Rabbit()
         rabbit2 = Rabbit()
-        print(environment._grid_map.keys())
-        environment.add_animal_at(rabbit1,0,0)
+        grid.add_animal_at(rabbit1,0,0)
         rabbit1.energy = 6
-        environment.add_animal_at(rabbit2,0,0)
-        action = ReproduceAction(rabbit1,4,rabbit2,environment.get_grid(0,0),Rabbit)
+        grid.add_animal_at(rabbit2,0,0)
+        action = ReproduceAction(rabbit1,4,rabbit2,grid,Rabbit)
         action.execute()
-        assert len(environment.get_grid(0,0).occupants) > 2
+        assert len(grid.occupants) > 2
         assert rabbit1.energy == 2
