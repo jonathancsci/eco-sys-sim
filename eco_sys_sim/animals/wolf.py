@@ -1,6 +1,6 @@
 from .animal import Animal
 
 
-class Bear(Animal):
+class Wolf(Animal):
     def __init__(self):
         super().__init__(5)
