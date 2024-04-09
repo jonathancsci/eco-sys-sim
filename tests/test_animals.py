@@ -1,5 +1,8 @@
 from eco_sys_sim.animals.rabbit import Rabbit
 from eco_sys_sim.animals.fox import Fox
+from eco_sys_sim.animals.bear import Bear
+from eco_sys_sim.animals.deer import Deer
+from eco_sys_sim.animals.wolf import Wolf
 from eco_sys_sim.animals.animal import Animal
 
 
@@ -13,9 +16,15 @@ class TestAnimals:
     def test_nutritional_value(self):
         rabbit = Rabbit()
         fox = Fox()
+        wolf = Wolf()
+        deer = Deer()
+        bear = Bear()
         rabbit.energy = 3
         assert rabbit.nutritional_value() == 7
         assert fox.nutritional_value() == 10.5
+        assert wolf.nutritional_value() == 17.5
+        assert deer.nutritional_value() == 21
+        assert bear.nutritional_value() == 35
 
     def test_can_mate(self):
         rabbit = Rabbit()
