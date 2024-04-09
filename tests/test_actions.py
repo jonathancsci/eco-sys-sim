@@ -15,7 +15,7 @@ class TestActions:
         grid1 = Grid()
         grid2 = Grid()
         rabbit = Rabbit()
-        grid1.add_animal_at(rabbit,0,0)
+        grid1.add_occupant(rabbit)
         action = MoveAction(rabbit,.2,grid1,grid2)
         action.execute()
         assert rabbit in grid2.occupants
@@ -42,8 +42,8 @@ class TestActions:
         grid = Grid()
         fox = Fox()
         rabbit = Rabbit()
-        grid.add_animal_at(fox,0,0)
-        grid.add_animal_at(rabbit,0,0)
+        grid.add_occupant(fox)
+        grid.add_occupant(rabbit)
         rabbit.alive = False
         action = EatAction(fox,rabbit,grid)
         action.execute()
@@ -54,7 +54,7 @@ class TestActions:
     def test_graze(self):
         grid = Grid()
         rabbit = Rabbit()
-        grid.add_animal_at(rabbit,0,0)
+        grid.add_occupant(rabbit)
         action = GrazeAction(rabbit,grid)
         action.execute()
         assert rabbit.energy == 9
@@ -64,9 +64,9 @@ class TestActions:
         grid = Grid()
         rabbit1 = Rabbit()
         rabbit2 = Rabbit()
-        grid.add_animal_at(rabbit1,0,0)
+        grid.add_occupant(rabbit1)
         rabbit1.energy = 6
-        grid.add_animal_at(rabbit2,0,0)
+        grid.add_occupant(rabbit2)
         action = ReproduceAction(rabbit1,4,rabbit2,grid,Rabbit)
         action.execute()
         assert len(grid.occupants) > 2
