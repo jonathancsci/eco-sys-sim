@@ -12,11 +12,12 @@ class EatAction(Action):
     def target(self):
         return self._target
 
-    def __init__(self, animal, cost, target):
+    def __init__(self, animal, target, current_grid):
         self._animal = animal
-        self._energy_cost = cost
+        self._energy_cost = 0
+        self._current_grid = current_grid
         self._target = target
 
     def action(self):
         self.animal.energy += self.target.nutritional_value()
-        self.current_grid.remove_animal(self.target)
+        self.current_grid.remove_occupant(self.target)

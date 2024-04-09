@@ -9,15 +9,22 @@ class ReproduceAction(Action):
 
     # offspring to be created
     @property
-    def offpsring(self):
-        return self._offpsring
+    def mate(self):
+        return self._mate
 
-    def __init__(self, animal, cost, current_grid, offspring):
+    # offspring to be created
+    @property
+    def offspring(self):
+        return self._offspring
+
+    def __init__(self, animal, cost, mate, current_grid, offspring):
         self._animal = animal
         self._energy_cost = cost
         self._current_grid = current_grid
-        self._animal = animal
+        self._mate = mate
+        self._offspring = offspring
 
     def action(self):
-        self.current_grid.add_animal(self.offspring)
+        if(self.mate.alive):
+            self.current_grid.add_occupant(self.offspring())
         # important note: ask Jonathan if python has garbage collection, if not then there needs to be a way to delete the baby if the animal dies before taking their turn
