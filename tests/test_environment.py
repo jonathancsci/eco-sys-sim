@@ -1,12 +1,16 @@
+import random
 import numpy as np
 from eco_sys_sim.environment import Environment
 from eco_sys_sim.grid import Grid
+from eco_sys_sim.plot import Plot
 
 
 class TestEnvironment:
     @classmethod
     def setup_class(cls):
-        cls.environment = Environment(rows=5, cols=10)
+        cls.environment = Environment()
+        cls.plot = Plot()
+        cls.animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit"]
 
     def test_constructor(self):
         assert self.environment._rows == 5
@@ -35,3 +39,8 @@ class TestEnvironment:
             assert isinstance(first_neighbor, Grid)
         else:
             assert len(neighbors_list) == 0
+
+    def test_observer(self):
+        dummy_data = {animal: random.randint(0, 9) for animal in self.animals_list}
+        self.environment.attach(self.plot)
+        self.environment._notify_observers(dummy_data)
