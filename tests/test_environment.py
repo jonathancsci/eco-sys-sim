@@ -1,5 +1,6 @@
 import random
 import numpy as np
+import matplotlib.pyplot as plt
 from eco_sys_sim.environment import Environment
 from eco_sys_sim.grid import Grid
 from eco_sys_sim.plot import Plot
@@ -44,3 +45,4 @@ class TestEnvironment:
         dummy_data = {animal: random.randint(0, 9) for animal in self.animals_list}
         self.environment.attach(self.plot)
         self.environment._notify_observers(dummy_data)
+        plt.close('all')
