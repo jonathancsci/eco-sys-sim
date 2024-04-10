@@ -118,7 +118,11 @@ class Environment:
         return population_counter
 
     def step(self):
-        # TODO
+        actions = []
+        for g in self._grid_map:
+            actions.append(g.step())
+        for a in actions:
+            a.execute()
         pass
 
     def get_random_grid(self):
