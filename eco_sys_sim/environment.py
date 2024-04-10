@@ -119,7 +119,7 @@ class Environment:
 
     def step(self):
         actions = []
-        for g in self._grid_map:
+        for g in self._grid_map.values():
             actions.append(g.step())
         for a in actions:
             a.execute()
@@ -128,6 +128,7 @@ class Environment:
     def get_random_grid(self):
         x = random.randint(0, self._rows)
         y = random.randint(0, self._cols)
+        
         return self.get_grid(x, y)
 
     def get_grid(self, x, y):

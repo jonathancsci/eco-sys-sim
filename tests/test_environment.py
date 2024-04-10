@@ -35,3 +35,15 @@ class TestEnvironment:
             assert isinstance(first_neighbor, Grid)
         else:
             assert len(neighbors_list) == 0
+
+    def test_step(self):
+        environment = Environment()
+        environment._populate_grid_map()
+        environment.step()
+        animal = 0
+        for grid in environment._grid_map.values():
+            if len(grid.occupants) > 0:
+                animal = grid.occupants[0]
+                break
+        assert isinstance(animal)
+
