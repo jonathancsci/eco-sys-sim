@@ -37,5 +37,5 @@ class Grid:
     def step(self):
         actions = []
         for o in self.occupants:
-            actions.append(o.step())
-        pass
+            actions.append(o.step(self))
+        return actions

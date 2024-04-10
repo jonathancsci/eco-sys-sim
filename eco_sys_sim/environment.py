@@ -116,12 +116,15 @@ class Environment:
     def step(self):
         actions = []
         for g in self._grid_map.values():
-            actions.append(g.step())
+            actions += g.step()
         for a in actions:
             a.execute()
         pass
 
     def _get_random_grid(self):
-        y = random.randint(0, self._rows)
-        x = random.randint(0, self._cols)
+        y = random.randint(0, self._rows-1)
+        x = random.randint(0, self._cols-1)
+        while self._obstacle_grid[y,x] == 1:
+            y = random.randint(0, self._rows-1)
+            x = random.randint(0, self._cols-1)
         return self._grid_map[y, x]

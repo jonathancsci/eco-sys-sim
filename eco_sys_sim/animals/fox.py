@@ -12,4 +12,4 @@ class Fox(Animal):
                 self.add_grid_score(o.nutritional_value, grid)
             elif self.can_mate() and type(o) == Fox:
                 self.add_grid_score(10)
-        self.add_grid_score(self.dice_roll, grid)
+        self.add_grid_score(self.dice_roll(), grid)
