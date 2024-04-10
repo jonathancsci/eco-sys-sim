@@ -1,7 +1,7 @@
 from .plot import Plot
 from .environment import Environment
 import matplotlib.pyplot as plt
-
+from .status import Status, MaxIterReached, UserTerminated
 
 class Ecosystem:
     def __init__(self, rows: int = 5, cols: int = 10):
@@ -15,12 +15,12 @@ class Ecosystem:
         )
         self._environment.attach(self._plot)
 
-    def run_simulation(self, max_iters: int = 0) -> str:
+    def run_simulation(self, max_iters: int = 0) -> Status:
         for _ in range(max_iters):
             self.step()
             if not plt.get_fignums():
-                return "window_closed"
-        return "max_iters_reached"
+                return UserTerminated
+        return MaxIterReached
 
     def step(self):
         self._environment.step()
