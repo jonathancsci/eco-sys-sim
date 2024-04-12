@@ -35,5 +35,7 @@ class Grid:
         self._occupants.remove(occupant)
 
     def step(self):
-        # TODO
-        pass
+        actions = []
+        for o in self.occupants:
+            actions.append(o.step(self))
+        return actions

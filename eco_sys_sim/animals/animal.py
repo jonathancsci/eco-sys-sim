@@ -72,5 +72,5 @@ class Animal:
     def is_full(self):
         return self.energy >= 3 * self.size
 
-    def dice_roll():
+    def dice_roll(self):
         return random.randint(1, 7)
