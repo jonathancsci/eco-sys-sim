@@ -122,9 +122,9 @@ class Environment:
         pass
 
     def _get_random_grid(self):
-        y = random.randint(0, self._rows-1)
-        x = random.randint(0, self._cols-1)
-        while self._obstacle_grid[y,x] == 1:
-            y = random.randint(0, self._rows-1)
-            x = random.randint(0, self._cols-1)
+        y = random.randint(0, self._rows - 1)
+        x = random.randint(0, self._cols - 1)
+        while self._obstacle_grid[y, x] == 1:
+            y = random.randint(0, self._rows - 1)
+            x = random.randint(0, self._cols - 1)
         return self._grid_map[y, x]

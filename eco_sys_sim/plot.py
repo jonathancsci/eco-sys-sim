@@ -23,7 +23,7 @@ class Plot:
 
     def update(self, curr_iter: int, animal_populations: dict[str, int]):
         self._x_iters.append(curr_iter)
-        
+
         for animal, curr_population in animal_populations.items():
             self._y_populations[animal].append(curr_population)
             self._plot_lines[animal].set_data(

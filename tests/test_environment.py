@@ -57,4 +57,4 @@ class TestEnvironment:
         dummy_data = {animal: random.randint(0, 9) for animal in self.animals_list}
         self.environment.attach(self.plot)
         self.environment._notify_observers(dummy_data)
-        plt.close('all')
+        plt.close("all")
