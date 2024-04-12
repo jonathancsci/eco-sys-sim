@@ -3,6 +3,7 @@ from .environment import Environment
 import matplotlib.pyplot as plt
 from .status import Status, MaxIterReached, UserTerminated
 
+
 class Ecosystem:
     def __init__(self, rows: int = 5, cols: int = 10):
         self._animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit"]

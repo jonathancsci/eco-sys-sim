@@ -12,4 +12,4 @@ class TestPlot:
     def test_update(self):
         dummy_data = {animal: random.randint(0, 9) for animal in self.animals_list}
         self.plot.update(0, dummy_data)
-        plt.close('all')
+        plt.close("all")

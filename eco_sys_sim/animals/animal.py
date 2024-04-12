@@ -46,7 +46,7 @@ class Animal:
         self._alive = True
         self._preferences = {}
         self._size = size
-        self._energy = size*1.5
+        self._energy = size * 1.5
 
     def step(self, grid: Grid):
         self.preferences = dict.fromkeys(grid.neighbors, 0)
