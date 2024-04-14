@@ -93,6 +93,7 @@ class Environment:
             observer.update(self._iter_counter, animal_populations)
 
     def _count_animal_populations(self) -> dict[str, int]:
+        # TODO: Make public
         population_counter: dict[str, int] = {
             animal: 0 for animal in self._animals_list
         }
@@ -115,6 +116,7 @@ class Environment:
         return population_counter
 
     def step(self):
+        # TODO: Complete impl
         time.sleep(0.1)
         actions = []
         for g in self._grid_map.values():
