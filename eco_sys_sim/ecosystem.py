@@ -1,6 +1,8 @@
 from .plot import Plot
 from .environment import Environment
 import matplotlib.pyplot as plt
+from rich.progress import track
+import time
 from .status import Status, MaxIterReached, UserTerminated
 
 
@@ -17,7 +19,10 @@ class Ecosystem:
         self._environment.attach(self._plot)
 
     def run_simulation(self, max_iters: int = 0) -> Status:
-        for _ in range(max_iters):
+        # for _ in track(range(max_iters), description="Simulation status"):
+        #     time.sleep(0.1)
+        # return MaxIterReached
+        for _ in track(range(max_iters), description="Simulation status"):
             self.step()
             if not plt.get_fignums():
                 return UserTerminated
