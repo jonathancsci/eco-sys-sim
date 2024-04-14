@@ -1,13 +1,66 @@
+import matplotlib.pyplot as plt
 import typer
-from eco_sys_sim.environment import Environment
+from eco_sys_sim.ecosystem import Ecosystem
+from eco_sys_sim import status
+from rich.console import Console
+from rich.table import Table
+from rich.progress import track
+import time
 
-environment = Environment(rows=5, cols=10)
 
+console = Console()
 
 def main(
-    name: str = typer.Option(prompt="Please enter your name", help="Your legal name"),
+    rows: int = typer.Option(default=5, prompt="Rows", help="Number of rows in the grid map"),
+    cols: int = typer.Option(default=10, prompt="Columns", help="Number of columns in the grid map"),
+    prob_obstacles: int = typer.Option(default=20, prompt="Probability of obstacle (%)", help="Probability that a grid will be an obstacle (%)"),
+    num_iters: int = typer.Option(default=100, prompt="Number of iterations (at 10Hz)", help="Number of iterations to run the simulation for. The simulation runs at a rate of 10 Hz"),
+    init_num_bears: int = typer.Option(default=5, prompt="Initial number of bears", help="Initial number of bears"),
+    init_num_wolves: int = typer.Option(default=10, prompt="Initial number of wolves", help="Initial number of wolves"),
+    init_num_foxes: int = typer.Option(default=20, prompt="Initial number of foxes", help="Initial number of foxes"),
+    init_num_deer: int = typer.Option(default=50, prompt="Initial number of deer", help="Initial number of deer"),
+    init_num_rabbits: int = typer.Option(default=100, prompt="Initial number of rabbits", help="Initial number of rabbits"),
 ):
-    print(f"Hello {name}!")
+    init_table = Table("Variable", "Value")
+    init_table.add_row(":up-down_arrow:  Rows", f"{rows}")
+    init_table.add_row(":left_right_arrow:  Columns", f"{cols}")
+    init_table.add_row(":game_die: Chance of obstacle", f"{prob_obstacles}")
+    init_table.add_row(":timer_clock:  Iterations", f"{num_iters}")
+    init_table.add_row(":bear: Bears", f"{init_num_bears}")
+    init_table.add_row(":wolf: Wolves", f"{init_num_wolves}")
+    init_table.add_row(":fox_face: Foxes", f"{init_num_foxes}")
+    init_table.add_row(":deer: Deer", f"{init_num_deer}")
+    init_table.add_row(":rabbit: Rabbits", f"{init_num_rabbits}")
+    
+    console.print("\nStarting simulation with the following initial conditions:", style="bold")
+    console.print(init_table)
+
+    try:
+        ecosystem = Ecosystem(rows, cols)
+        # for _ in track(range(num_iters), description="Simulation progress"):
+        #     time.sleep(0.1)
+        returned_status: status.Status = ecosystem.run_simulation(max_iters=num_iters)
+
+        match returned_status:
+            case status.MaxIterReached:
+                console.print(f"{num_iters} iterations completed\n")
+            case status.UserTerminated:
+                console.print(":stop_sign: Plot window closed\n")
+
+        final_table = Table("Animal", "Population")
+        final_table.add_row(":bear: Bears", f"{0}")
+        final_table.add_row(":wolf: Wolves", f"{0}")
+        final_table.add_row(":fox_face: Foxes", f"{0}")
+        final_table.add_row(":deer: Deer", f"{0}")
+        final_table.add_row(":rabbit: Rabbits", f"{0}")
+        
+        console.print("Exiting simulation with the following end state:", style="bold")
+        console.print(final_table)
+
+    except Exception as e:
+        console.print("Oh no, something went wrong")
+        console.print(e)
+        raise typer.Exit(code=1)
 
 
 if __name__ == "__main__":

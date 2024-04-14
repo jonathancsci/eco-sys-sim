@@ -4,6 +4,7 @@ from .animals.animal import Animal
 from .animals.rabbit import Rabbit
 from .grid import Grid
 from .plot import Plot
+import time
 
 
 class Environment:
@@ -114,12 +115,12 @@ class Environment:
         return population_counter
 
     def step(self):
+        time.sleep(0.1)
         actions = []
         for g in self._grid_map.values():
             actions += g.step()
         for a in actions:
             a.execute()
-        pass
 
     def _get_random_grid(self):
         y = random.randint(0, self._rows - 1)
