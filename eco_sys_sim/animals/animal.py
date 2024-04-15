@@ -145,7 +145,7 @@ class Animal:
         return self.diet(self, grid)
   
     def check_for_mate(self, grid: Grid):
-        if self.can_mate:
+        if self.can_mate():
             for o in grid.occupants:
                 if(type(o) == type(self) and o != self):
                     return o
