@@ -1,4 +1,8 @@
 from ..actions.move_action import MoveAction
+from ..actions.attack_action import AttackAction
+from ..actions.reproduce_action import ReproduceAction
+from ..actions.graze_action import GrazeAction
+from ..actions.eat_action import EatAction
 from ..actions.action import Action
 from eco_sys_sim.grid import Grid
 import random
@@ -53,7 +57,21 @@ class Animal:
         for rm in self.preferences.keys():
             self.score_grid(rm)
         target = max(self.preferences, key=self.preferences.get)
-        return MoveAction(self, self.size * 0.1, grid, target)
+        if(target != grid):
+            return MoveAction(self, self.size * 0.1, grid, target)
+        foe = check_for_fight(grid)
+        if(foe):
+            return AttackAction(self, foe, foe.size*.5-self.size*.1)
+        mate = check_for_mate(grid)
+        if(mate):
+            return ReproduceAction(self,self.size,mate,grid,type(self))
+        food = check_for_food(grid)
+        if(food):
+            if(type(food)==Animal):
+                return EatAction(self,food,grid)
+            else:
+                return GrazeAction(self,grid)
+        
 
     def init_scores(self, grid: Grid):
         self.preferences = dict.fromkeys(grid.neighbors, self.dice_roll())
@@ -61,6 +79,26 @@ class Animal:
 
     def score_grid(self, grid: Grid):
         raise NotImplementedError
+    
+    def check_for_fight(self, grid: Grid):
+        raise NotImplementedError
+    
+    def check_for_mate(self, grid: Grid):
+        raise NotImplementedError
+
+    def check_for_food(self, grid: Grid):
+        raise NotImplementedError
+
+    def check_for_meat(self, grid: Grid):
+        for o in grid.occupants:
+            if not o.alive:
+                return o
+        return None
+    
+    def check_for_grass(self, grid: Grid):
+        if(grid.grass_level >= self.size):
+            return grid.grass_level
+        return None
 
     def add_grid_score(self, value, grid):
         if grid in self.preferences.keys():
