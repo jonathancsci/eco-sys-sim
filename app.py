@@ -25,21 +25,26 @@ def main(
         console.print(f":x: Error: probability_of_obstacles must be in the range [0, 1), got {probability_of_obstacles}", style="bold")
         raise typer.Exit(code=1)
     
-    init_table = create_init_table(rows,
-                                   cols,
-                                   probability_of_obstacles,
-                                   num_iters,
-                                   init_num_bears,
-                                   init_num_wolves,
-                                   init_num_foxes,
-                                   init_num_deer,
-                                   init_num_rabbits,
-                                   )
+    init_table = create_init_table(
+        rows,
+        cols,
+        probability_of_obstacles,
+        num_iters,
+        init_num_bears,
+        init_num_wolves,
+        init_num_foxes,
+        init_num_deer,
+        init_num_rabbits,
+    )
     console.print("\nStarting simulation with the following initial conditions:", style="bold")
     console.print(init_table)
 
     try:
-        ecosystem = Ecosystem(rows, cols)
+        ecosystem = Ecosystem(
+            rows,
+            cols,
+            probability_of_obstacles,
+        )
         # for _ in track(range(num_iters), description="Simulation progress"):
         #     time.sleep(0.1)
         returned_status, final_populations = ecosystem.run_simulation(num_iters)
@@ -69,7 +74,7 @@ def create_init_table(
         init_num_foxes,
         init_num_deer,
         init_num_rabbits,
-        ) -> Table:
+    ) -> Table:
     init_table = Table("Variable", "Value")
     init_table.add_row(":up-down_arrow:  Rows", f"{rows}")
     init_table.add_row(":left_right_arrow:  Columns", f"{cols}")
