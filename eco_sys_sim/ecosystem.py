@@ -18,12 +18,12 @@ class Ecosystem:
         )
         self._environment.attach(self._plot)
 
-    def run_simulation(self, max_iters: int = 0) -> tuple[Status, dict[str, int]]:
-        # for _ in track(range(max_iters), description="Simulation status"):
+    def run_simulation(self, num_iters: int = 0) -> tuple[Status, dict[str, int]]:
+        # for _ in track(range(num_iters), description="Simulation status"):
         #     time.sleep(0.1)
         # return MaxIterReached
         status = None
-        for _ in track(range(max_iters), description="Simulation status"):
+        for _ in track(range(num_iters), description="Simulation status"):
             self.step()
             if not plt.get_fignums():
                 status = UserTerminated()
