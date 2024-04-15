@@ -12,7 +12,7 @@ class Ecosystem:
             rows: int = 5,
             cols: int = 10,
             probability_of_obstacles: float = 0.2,
-            ):
+        ):
         self._animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit"]
 
         self._ax = plt.subplots()[1]

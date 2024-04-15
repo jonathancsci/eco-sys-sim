@@ -60,9 +60,10 @@ def main(
         console.print(final_table)
 
     except Exception as e:
-        console.print("Oh no, something went wrong")
-        console.print(e)
-        raise typer.Exit(code=1)
+        # console.print("Oh no, something went wrong")
+        # console.print(e)
+        # raise typer.Exit(code=1)
+        raise Exception(e)
 
 def create_init_table(
         rows,
