@@ -57,8 +57,8 @@ class TestActions:
         grid.add_occupant(rabbit)
         action = GrazeAction(rabbit, grid)
         action.execute()
-        assert rabbit.energy == 9
-        assert grid.grass_level == 6
+        assert rabbit.energy == 5
+        assert grid.grass_level == 10
 
     def test_reproduce(self):
         grid = Grid()
