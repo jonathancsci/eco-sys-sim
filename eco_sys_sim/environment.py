@@ -15,6 +15,11 @@ class Environment:
         rows: int = 5,
         cols: int = 10,
         probability_of_obstacles: int = 0.2,
+        init_num_bears: int = 5,
+        init_num_wolves: int = 10,
+        init_num_foxes: int = 20,
+        init_num_deer: int = 50,
+        init_num_rabbits: int = 100,
         animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit"],
     ):
         self._rows: int = rows
@@ -23,6 +28,11 @@ class Environment:
         self._observers: list[Plot] = list()
         self._iter_counter: int = 0
         self._probability_of_obstacles = probability_of_obstacles
+        self._init_num_bears = init_num_bears
+        self._init_num_wolves = init_num_wolves
+        self._init_num_foxes = init_num_foxes
+        self._init_num_deer = init_num_deer
+        self._init_num_rabbits = init_num_rabbits
 
         self._obstacle_grid: np.ndarray = self._create_obstacle_grid()
         self._grid_map: dict[tuple, Grid] = self._create_grid_map()
@@ -55,13 +65,15 @@ class Environment:
         return neighbors
 
     def _create_obstacle_grid(self) -> np.ndarray:
-        return np.random.choice([0, 1], size=(self._rows, self._cols), replace=True, p=[1 - self._probability_of_obstacles, self._probability_of_obstacles])
-        # obstacles = np.zeros((self._rows, self._cols), dtype=int)
-        # for y in range(self._rows):
-        #     for x in range(self._cols):
-        #         if random.randint(0, 4) == 1:
-        #             obstacles[y, x] = 1
-        # return obstacles
+        return np.random.choice(
+            [0, 1],
+            size=(self._rows, self._cols),
+            replace=True,
+            p=[
+                1 - self._probability_of_obstacles,
+                self._probability_of_obstacles
+            ]
+        )
 
     def _create_grid_map(self) -> dict[tuple, Grid]:
         # Setup dictionary of Grids
@@ -87,8 +99,15 @@ class Environment:
         return grid_map
 
     def _populate_grid_map(self) -> None:
-        # TODO: replace with actual flexible creature population, possibly via builder pattern
-        for _ in range(0, 4):
+        for _ in range(self._init_num_bears):
+            self._get_random_grid().add_occupant(Bear())
+        for _ in range(self._init_num_wolves):
+            self._get_random_grid().add_occupant(Wolf())
+        for _ in range(self._init_num_foxes):
+            self._get_random_grid().add_occupant(Fox())
+        for _ in range(self._init_num_deer):
+            self._get_random_grid().add_occupant(Deer())
+        for _ in range(self._init_num_rabbits):
             self._get_random_grid().add_occupant(Rabbit())
 
     def attach(self, new_observer: Plot):
