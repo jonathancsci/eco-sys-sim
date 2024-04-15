@@ -10,7 +10,8 @@ class Ecosystem:
     def __init__(self, rows: int = 5, cols: int = 10):
         self._animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit"]
 
-        self._plot = Plot(animals_list=self._animals_list)
+        self._ax = plt.subplots()[1]
+        self._plot = Plot(ax=self._ax, animals_list=self._animals_list)
 
         self._environment = Environment(
             rows=rows, cols=cols, animals_list=self._animals_list
