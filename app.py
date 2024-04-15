@@ -31,7 +31,6 @@ def main(
                                    init_num_deer,
                                    init_num_rabbits,
                                    )
-    
     console.print("\nStarting simulation with the following initial conditions:", style="bold")
     console.print(init_table)
 
@@ -79,7 +78,7 @@ def create_init_table(
     init_table.add_row(":rabbit: Rabbits", f"{init_num_rabbits}")
     return init_table
 
-def create_final_table() -> Table:
+def create_final_table(populations: dict[str, int] = None) -> Table:
     final_table = Table("Animal", "Population")
     final_table.add_row(":bear: Bears", f"{0}")
     final_table.add_row(":wolf: Wolves", f"{0}")
