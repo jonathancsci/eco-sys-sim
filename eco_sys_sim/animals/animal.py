@@ -45,6 +45,46 @@ class Animal:
     def diet(self):
         return self._diet
 
+    #storage for the diet function
+    @property
+    def attacks(self):
+        return self._attacks
+    
+    def attacks(self):
+        return self._attacks
+
+    #storage for the diet function
+    @property
+    def fears(self):
+        return self._fears
+    
+    def fears(self):
+        return self._fears
+
+    #storage for the diet function
+    @property
+    def fights_back(self):
+        return self._fights_back
+    
+    def fights_back(self):
+        return self._fights_back
+
+    #storage for the diet function
+    @property
+    def fights_back(self):
+        return self._fights_back
+    
+    def fights_back(self):
+        return self._fights_back
+
+    #storage for the diet function
+    @property
+    def herds(self):
+        return self._herds
+    
+    def herds(self):
+        return self._herds
+
     # storage for current preferences
     @property
     def preferences(self):
@@ -55,13 +95,16 @@ class Animal:
         self._preferences = preferences
 
     # full list of methods
-    def __init__(self, size, diet, attacks):
+    def __init__(self, size):
         self._alive = True
         self._preferences = {}
         self._size = size
         self._energy = size * 1.5
-        self._diet = diet
-        self._attacks = attacks
+        self._fights_back = False
+        self._herds = False
+        self._diet = Animal.eat_grass
+        self._fears = []
+        self._attacks = []
 
     def step(self, grid: Grid):
         self.init_scores()
@@ -85,14 +128,41 @@ class Animal:
         return RestAction(self)  
 
     def init_scores(self, grid: Grid):
-        self.preferences = dict.fromkeys(grid.neighbors, self.dice_roll())
-        self.preferences.update({grid: self.size+self.dice_roll()})
+        self.preferences = dict.fromkeys(grid.neighbors, pow((self.size-self.energy),2)+self.dice_roll()*2)
+        self.preferences.update({grid: (self.size*2)+self.dice_roll()*2})
 
-    def score_grid(self, grid: Grid):
-        raise NotImplementedError
+    def score_grid(self, grid):
+        for o in grid.occupants:
+            #animals prefer to move away from their predators
+            if type(o) in self.fears:
+                self.add_grid_score(-100, grid)
+                #animals that fight back will prefer to stay if the predator is on top of them though
+                if(not(self in grid.occupants and self.fights_back)):
+                    self.add_grid_score(150, grid)
+                #animals will avoid rooms that their predators can approach them from (everything is viewed as a predator if skittish)
+                if(self in o.attacks):
+                    for rm in grid.neighbors:
+                        self.add_grid_score(-50, grid)
+            #carnivores prefer to move towards their prey when they are hungry
+            elif ((type(o) in self.attacks) and (not self.is_full())):
+                self.add_grid_score(o.nutritional_value, grid)
+            #herding animals and animals that can mate prefer to move towards eachother
+            elif ((self.herds or self.can_mate()) and (type(o) == type(self))):
+                self.add_grid_score(5+self.energy)
+        #herbivores prefer taller grass
+        if(self.diet == Animal.eat_grass and not self.is_full()):
+            self.add_grid_score(grid.grass_level, grid)
     
     def check_for_fight(self, grid: Grid):
-        raise NotImplementedError
+        if self.fights_back:
+            for o in grid.occupants:
+                if(type(o) in self.fears):
+                    return o
+        if not self.is_full():
+            for o in grid.occupants:
+                if(type(o) in self.attacks):
+                    return o
+        return None
 
     def check_for_food(self, grid: Grid):
         return self.diet(grid)
