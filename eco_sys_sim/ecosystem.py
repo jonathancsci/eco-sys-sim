@@ -12,6 +12,11 @@ class Ecosystem:
             rows: int = 5,
             cols: int = 10,
             probability_of_obstacles: float = 0.2,
+            init_num_bears: int = 2,
+            init_num_wolves: int = 3,
+            init_num_foxes: int = 5,
+            init_num_deer: int = 10,
+            init_num_rabbits: int = 30,
         ):
         self._animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit"]
 
@@ -19,10 +24,15 @@ class Ecosystem:
         self._plot = Plot(ax=self._ax, animals_list=self._animals_list)
 
         self._environment = Environment(
-            rows=rows,
-            cols=cols, 
-            probability_of_obstacles=probability_of_obstacles,
-            animals_list=self._animals_list,
+            rows,
+            cols, 
+            probability_of_obstacles,
+            init_num_bears,
+            init_num_wolves,
+            init_num_foxes,
+            init_num_deer,
+            init_num_rabbits,
+            self._animals_list,
         )
         self._environment.attach(self._plot)
 

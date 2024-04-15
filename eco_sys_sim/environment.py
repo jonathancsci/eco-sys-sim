@@ -15,11 +15,11 @@ class Environment:
         rows: int = 5,
         cols: int = 10,
         probability_of_obstacles: int = 0.2,
-        init_num_bears: int = 5,
-        init_num_wolves: int = 10,
-        init_num_foxes: int = 20,
-        init_num_deer: int = 50,
-        init_num_rabbits: int = 100,
+        init_num_bears: int = 2,
+        init_num_wolves: int = 3,
+        init_num_foxes: int = 5,
+        init_num_deer: int = 10,
+        init_num_rabbits: int = 30,
         animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit"],
     ):
         self._rows: int = rows
