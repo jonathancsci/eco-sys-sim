@@ -3,6 +3,7 @@ from ..actions.attack_action import AttackAction
 from ..actions.reproduce_action import ReproduceAction
 from ..actions.graze_action import GrazeAction
 from ..actions.eat_action import EatAction
+from ..actions.rest_action import RestAction
 from ..actions.action import Action
 from eco_sys_sim.grid import Grid
 import random
@@ -36,6 +37,14 @@ class Animal:
     def alive(self, alive):
         self._alive = alive
 
+    #storage for the diet function
+    @property
+    def diet(self):
+        return self._diet
+    
+    def diet(self):
+        return self._diet
+
     # storage for current preferences
     @property
     def preferences(self):
@@ -46,11 +55,13 @@ class Animal:
         self._preferences = preferences
 
     # full list of methods
-    def __init__(self, size=3):
+    def __init__(self, size, diet, attacks):
         self._alive = True
         self._preferences = {}
         self._size = size
         self._energy = size * 1.5
+        self._diet = diet
+        self._attacks = attacks
 
     def step(self, grid: Grid):
         self.init_scores()
@@ -59,19 +70,19 @@ class Animal:
         target = max(self.preferences, key=self.preferences.get)
         if(target != grid):
             return MoveAction(self, self.size * 0.1, grid, target)
-        foe = check_for_fight(grid)
+        foe = self.check_for_fight(grid)
         if(foe):
             return AttackAction(self, foe, foe.size*.5-self.size*.1)
-        mate = check_for_mate(grid)
+        mate = self.check_for_mate(grid)
         if(mate):
             return ReproduceAction(self,self.size,mate,grid,type(self))
-        food = check_for_food(grid)
+        food = self.check_for_food(grid)
         if(food):
             if(type(food)==Animal):
                 return EatAction(self,food,grid)
             else:
                 return GrazeAction(self,grid)
-        
+        return RestAction(self)  
 
     def init_scores(self, grid: Grid):
         self.preferences = dict.fromkeys(grid.neighbors, self.dice_roll())
@@ -82,20 +93,24 @@ class Animal:
     
     def check_for_fight(self, grid: Grid):
         raise NotImplementedError
-    
-    def check_for_mate(self, grid: Grid):
-        raise NotImplementedError
 
     def check_for_food(self, grid: Grid):
-        raise NotImplementedError
+        return self.diet(grid)
+  
+    def check_for_mate(self, grid: Grid):
+        if self.can_mate:
+            for o in grid.occupants:
+                if(type(o) == type(self) and o != self):
+                    return o
+        return None
 
-    def check_for_meat(self, grid: Grid):
+    def eat_meat(self, grid: Grid):
         for o in grid.occupants:
             if not o.alive:
                 return o
         return None
     
-    def check_for_grass(self, grid: Grid):
+    def eat_grass(self, grid: Grid):
         if(grid.grass_level >= self.size):
             return grid.grass_level
         return None
