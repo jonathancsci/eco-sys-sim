@@ -122,7 +122,7 @@ class Animal:
                         self.add_grid_score(-50, grid)
             #carnivores prefer to move towards their prey when they are hungry
             elif ((type(o) in self.attacks) and (not self.is_full())):
-                self.add_grid_score(o.nutritional_value, grid)
+                self.add_grid_score(o.nutritional_value(), grid)
             #herding animals and animals that can mate prefer to move towards eachother
             elif ((self.herds or self.can_mate()) and (type(o) == type(self))):
                 self.add_grid_score(5+self.energy)
@@ -162,7 +162,7 @@ class Animal:
             return grid.grass_level
         return None
 
-    def add_grid_score(self, value, grid):
+    def add_grid_score(self, value: int, grid):
         if grid in self.preferences.keys():
             self.preferences[grid] += value
 
