@@ -7,9 +7,12 @@ from collections import deque
 class Plot:
     def __init__(
         self,
+        ax: Axes | None = None,
         animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit"],
     ):
-        self._ax: Axes = plt.subplots()[1]
+        if ax is None: # For tests
+            ax = plt.subplots()[1]
+        self._ax: Axes = ax
         self._x_iters: deque[int] = deque(maxlen=50)
         self._y_populations: dict[str, deque[int]] = {
             animal: deque(maxlen=50) for animal in animals_list
