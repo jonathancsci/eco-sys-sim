@@ -15,11 +15,11 @@ def main(
     cols: int = typer.Option(default=10, prompt="Columns", help="Number of columns in the grid map"),
     probability_of_obstacles: float = typer.Option(default=0.2, prompt="Probability of obstacles", help="Probability that a grid will be an obstacle (%)"),
     num_iters: int = typer.Option(default=100, prompt="Number of iterations (at 10Hz)", help="Number of iterations to run the simulation for. The simulation runs at a rate of 10 Hz"),
-    init_num_bears: int = typer.Option(default=5, prompt="Initial number of bears", help="Initial number of bears"),
-    init_num_wolves: int = typer.Option(default=10, prompt="Initial number of wolves", help="Initial number of wolves"),
-    init_num_foxes: int = typer.Option(default=20, prompt="Initial number of foxes", help="Initial number of foxes"),
-    init_num_deer: int = typer.Option(default=50, prompt="Initial number of deer", help="Initial number of deer"),
-    init_num_rabbits: int = typer.Option(default=100, prompt="Initial number of rabbits", help="Initial number of rabbits"),
+    init_num_bears: int = typer.Option(default=2, prompt="Initial number of bears", help="Initial number of bears"),
+    init_num_wolves: int = typer.Option(default=3, prompt="Initial number of wolves", help="Initial number of wolves"),
+    init_num_foxes: int = typer.Option(default=5, prompt="Initial number of foxes", help="Initial number of foxes"),
+    init_num_deer: int = typer.Option(default=10, prompt="Initial number of deer", help="Initial number of deer"),
+    init_num_rabbits: int = typer.Option(default=30, prompt="Initial number of rabbits", help="Initial number of rabbits"),
 ):
     if not (0 <= probability_of_obstacles < 1):
         console.print(f":x: Error: probability_of_obstacles must be in the range [0, 1), got {probability_of_obstacles}", style="bold")
@@ -44,6 +44,11 @@ def main(
             rows,
             cols,
             probability_of_obstacles,
+            init_num_bears,
+            init_num_wolves,
+            init_num_foxes,
+            init_num_deer,
+            init_num_rabbits,
         )
         # for _ in track(range(num_iters), description="Simulation progress"):
         #     time.sleep(0.1)
