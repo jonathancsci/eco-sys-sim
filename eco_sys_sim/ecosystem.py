@@ -2,7 +2,6 @@ from .plot import Plot
 from .environment import Environment
 import matplotlib.pyplot as plt
 from rich.progress import track
-import time
 from .status import Status, MaxIterReached, UserTerminated
 
 
@@ -37,9 +36,6 @@ class Ecosystem:
         self._environment.attach(self._plot)
 
     def run_simulation(self, num_iters: int = 0) -> tuple[Status, dict[str, int]]:
-        # for _ in track(range(num_iters), description="Simulation status"):
-        #     time.sleep(0.1)
-        # return MaxIterReached
         status = None
         for _ in track(range(num_iters), description="Simulation status"):
             self.step()
