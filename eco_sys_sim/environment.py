@@ -1,7 +1,11 @@
 import numpy as np
 import random
 from .animals.animal import Animal
-from .animals.rabbit import Rabbit
+from .animals.concrete_animals import Rabbit
+from .animals.concrete_animals import Fox
+from .animals.concrete_animals import Deer
+from .animals.concrete_animals import Wolf
+from .animals.concrete_animals import Bear
 from .grid import Grid
 from .plot import Plot
 

@@ -1,8 +1,8 @@
-from eco_sys_sim.animals.rabbit import Rabbit
-from eco_sys_sim.animals.fox import Fox
-from eco_sys_sim.animals.bear import Bear
-from eco_sys_sim.animals.deer import Deer
-from eco_sys_sim.animals.wolf import Wolf
+from eco_sys_sim.animals.concrete_animals import Rabbit
+from eco_sys_sim.animals.concrete_animals import Fox
+from eco_sys_sim.animals.concrete_animals import Bear
+from eco_sys_sim.animals.concrete_animals import Deer
+from eco_sys_sim.animals.concrete_animals import Wolf
 from eco_sys_sim.animals.animal import Animal
 
 
