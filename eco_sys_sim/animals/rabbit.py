@@ -14,4 +14,3 @@ class Rabbit(Animal):
             elif self.can_mate():
                 self.add_grid_score(10)
         self.add_grid_score(grid.grass_level, grid)
-        self.add_grid_score(self.dice_roll(), grid)

@@ -49,12 +49,15 @@ class Animal:
         self._energy = size * 1.5
 
     def step(self, grid: Grid):
-        self.preferences = dict.fromkeys(grid.neighbors, 0)
-        self.preferences.update({grid: 0})
+        self.init_scores()
         for rm in self.preferences.keys():
             self.score_grid(rm)
         target = max(self.preferences, key=self.preferences.get)
         return MoveAction(self, self.size * 0.1, grid, target)
+
+    def init_scores(self, grid: Grid):
+        self.preferences = dict.fromkeys(grid.neighbors, self.dice_roll())
+        self.preferences.update({grid: self.size+self.dice_roll()})
 
     def score_grid(self, grid: Grid):
         raise NotImplementedError
