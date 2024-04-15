@@ -18,15 +18,19 @@ class Ecosystem:
         )
         self._environment.attach(self._plot)
 
-    def run_simulation(self, max_iters: int = 0) -> Status:
+    def run_simulation(self, max_iters: int = 0) -> tuple[Status, dict[str, int]]:
         # for _ in track(range(max_iters), description="Simulation status"):
         #     time.sleep(0.1)
         # return MaxIterReached
+        status = None
         for _ in track(range(max_iters), description="Simulation status"):
             self.step()
             if not plt.get_fignums():
-                return UserTerminated()
-        return MaxIterReached()
+                status = UserTerminated()
+                break
+        status = MaxIterReached() if not status else status
+        final_populations = self._environment.count_animal_populations()
+        return status, final_populations
 
     def step(self):
         self._environment.step()

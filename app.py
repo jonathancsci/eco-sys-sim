@@ -38,8 +38,8 @@ def main(
         ecosystem = Ecosystem(rows, cols)
         # for _ in track(range(num_iters), description="Simulation progress"):
         #     time.sleep(0.1)
-        returned_status: Status = ecosystem.run_simulation(max_iters=num_iters)
-        final_table = create_final_table()
+        returned_status, final_populations = ecosystem.run_simulation(max_iters=num_iters)
+        final_table = create_final_table(final_populations)
 
         match returned_status:
             case MaxIterReached():
@@ -78,13 +78,13 @@ def create_init_table(
     init_table.add_row(":rabbit: Rabbits", f"{init_num_rabbits}")
     return init_table
 
-def create_final_table(populations: dict[str, int] = None) -> Table:
+def create_final_table(final_populations: dict[str, int]) -> Table:
     final_table = Table("Animal", "Population")
-    final_table.add_row(":bear: Bears", f"{0}")
-    final_table.add_row(":wolf: Wolves", f"{0}")
-    final_table.add_row(":fox_face: Foxes", f"{0}")
-    final_table.add_row(":deer: Deer", f"{0}")
-    final_table.add_row(":rabbit: Rabbits", f"{0}")
+    final_table.add_row(":bear: Bears", f"{final_populations['bear']}")
+    final_table.add_row(":wolf: Wolves", f"{final_populations['wolf']}")
+    final_table.add_row(":fox_face: Foxes", f"{final_populations['fox']}")
+    final_table.add_row(":deer: Deer", f"{final_populations['deer']}")
+    final_table.add_row(":rabbit: Rabbits", f"{final_populations['rabbit']}")
     return final_table
 
 if __name__ == "__main__":
