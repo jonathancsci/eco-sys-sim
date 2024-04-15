@@ -24,8 +24,8 @@ class Ecosystem:
         for _ in track(range(max_iters), description="Simulation status"):
             self.step()
             if not plt.get_fignums():
-                return UserTerminated
-        return MaxIterReached
+                return UserTerminated()
+        return MaxIterReached()
 
     def step(self):
         self._environment.step()
