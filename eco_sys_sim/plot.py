@@ -7,16 +7,15 @@ from collections import deque
 class Plot:
     def __init__(
         self,
-        ax: Axes = plt.subplots()[1],
         animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit"],
     ):
-        self._ax: Axes = ax
+        self._ax: Axes = plt.subplots()[1]
         self._x_iters: deque[int] = deque(maxlen=50)
         self._y_populations: dict[str, deque[int]] = {
             animal: deque(maxlen=50) for animal in animals_list
         }
         self._plot_lines: dict[str, Line2D] = {
-            animal: ax.plot(self._x_iters, population, label=animal)[0]
+            animal: self._ax.plot(self._x_iters, population, label=animal)[0]
             for animal, population in self._y_populations.items()
         }
         self._ax.legend(loc="upper left")
