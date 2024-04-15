@@ -41,47 +41,24 @@ class Animal:
     @property
     def diet(self):
         return self._diet
-    
-    def diet(self):
-        return self._diet
 
-    #storage for the diet function
+    #animals that a predator hunts
     @property
     def attacks(self):
         return self._attacks
-    
-    def attacks(self):
-        return self._attacks
 
-    #storage for the diet function
+    #animals to run away from
     @property
     def fears(self):
         return self._fears
-    
-    def fears(self):
-        return self._fears
 
-    #storage for the diet function
+    #whether an animal fights back when cornered
     @property
     def fights_back(self):
         return self._fights_back
-    
-    def fights_back(self):
-        return self._fights_back
 
-    #storage for the diet function
+    #whether an animal seeks others of its kind when not hoping to reproduce
     @property
-    def fights_back(self):
-        return self._fights_back
-    
-    def fights_back(self):
-        return self._fights_back
-
-    #storage for the diet function
-    @property
-    def herds(self):
-        return self._herds
-    
     def herds(self):
         return self._herds
 
@@ -107,7 +84,7 @@ class Animal:
         self._attacks = []
 
     def step(self, grid: Grid):
-        self.init_scores()
+        self.init_scores(grid)
         for rm in self.preferences.keys():
             self.score_grid(rm)
         target = max(self.preferences, key=self.preferences.get)
@@ -165,7 +142,7 @@ class Animal:
         return None
 
     def check_for_food(self, grid: Grid):
-        return self.diet(grid)
+        return self.diet(self, grid)
   
     def check_for_mate(self, grid: Grid):
         if self.can_mate:
