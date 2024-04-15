@@ -13,7 +13,7 @@ console = Console()
 def main(
     rows: int = typer.Option(default=5, prompt="Rows", help="Number of rows in the grid map"),
     cols: int = typer.Option(default=10, prompt="Columns", help="Number of columns in the grid map"),
-    probability_of_obstacles: int = typer.Option(default=20, prompt="Probability of obstacles (%)", help="Probability that a grid will be an obstacle (%)"),
+    probability_of_obstacles: float = typer.Option(default=0.2, prompt="Probability of obstacles", help="Probability that a grid will be an obstacle (%)"),
     num_iters: int = typer.Option(default=100, prompt="Number of iterations (at 10Hz)", help="Number of iterations to run the simulation for. The simulation runs at a rate of 10 Hz"),
     init_num_bears: int = typer.Option(default=5, prompt="Initial number of bears", help="Initial number of bears"),
     init_num_wolves: int = typer.Option(default=10, prompt="Initial number of wolves", help="Initial number of wolves"),
@@ -21,6 +21,10 @@ def main(
     init_num_deer: int = typer.Option(default=50, prompt="Initial number of deer", help="Initial number of deer"),
     init_num_rabbits: int = typer.Option(default=100, prompt="Initial number of rabbits", help="Initial number of rabbits"),
 ):
+    if not (0 <= probability_of_obstacles < 1):
+        console.print(f":x: Error: probability_of_obstacles must be in the range [0, 1), got {probability_of_obstacles}", style="bold")
+        raise typer.Exit(code=1)
+    
     init_table = create_init_table(rows,
                                    cols,
                                    probability_of_obstacles,
@@ -69,7 +73,7 @@ def create_init_table(
     init_table = Table("Variable", "Value")
     init_table.add_row(":up-down_arrow:  Rows", f"{rows}")
     init_table.add_row(":left_right_arrow:  Columns", f"{cols}")
-    init_table.add_row(":game_die: Chance of obstacles", f"{probability_of_obstacles}%")
+    init_table.add_row(":game_die: Chance of obstacles", f"{probability_of_obstacles}")
     init_table.add_row(":timer_clock:  Iterations", f"{num_iters}")
     init_table.add_row(":bear: Bears", f"{init_num_bears}")
     init_table.add_row(":wolf: Wolves", f"{init_num_wolves}")
