@@ -14,6 +14,7 @@ class Environment:
         self,
         rows: int = 5,
         cols: int = 10,
+        probability_of_obstacles: int = 20,
         animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit"],
     ):
         self._rows: int = rows
@@ -21,6 +22,7 @@ class Environment:
         self._animals_list: list[str] = animals_list
         self._observers: list[Plot] = list()
         self._iter_counter: int = 0
+        self._probability_of_obstacles = probability_of_obstacles / 100
 
         self._obstacle_grid: np.ndarray = self._create_obstacle_grid()
         self._grid_map: dict[tuple, Grid] = self._create_grid_map()
@@ -53,12 +55,13 @@ class Environment:
         return neighbors
 
     def _create_obstacle_grid(self) -> np.ndarray:
-        obstacles = np.zeros((self._rows, self._cols), dtype=int)
-        for y in range(self._rows):
-            for x in range(self._cols):
-                if random.randint(0, 4) == 1:
-                    obstacles[y, x] = 1
-        return obstacles
+        return np.random.choice([0, 1], size=(self._rows, self._cols), replace=True, p=[self._probability_of_obstacles, 1-self._probability_of_obstacles])
+        # obstacles = np.zeros((self._rows, self._cols), dtype=int)
+        # for y in range(self._rows):
+        #     for x in range(self._cols):
+        #         if random.randint(0, 4) == 1:
+        #             obstacles[y, x] = 1
+        # return obstacles
 
     def _create_grid_map(self) -> dict[tuple, Grid]:
         # Setup dictionary of Grids
