@@ -119,7 +119,6 @@ class Environment:
 
     def step(self):
         populations = self.count_animal_populations()
-        print(populations)
         self._notify_observers(populations)
 
         actions = []

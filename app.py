@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import typer
 from eco_sys_sim.ecosystem import Ecosystem
-from eco_sys_sim import status
+from eco_sys_sim.status import Status, MaxIterReached, UserTerminated
 from rich.console import Console
 from rich.table import Table
 from rich.progress import track
@@ -38,15 +38,15 @@ def main(
         ecosystem = Ecosystem(rows, cols)
         # for _ in track(range(num_iters), description="Simulation progress"):
         #     time.sleep(0.1)
-        returned_status: status.Status = ecosystem.run_simulation(max_iters=num_iters)
+        returned_status: Status = ecosystem.run_simulation(max_iters=num_iters)
+        final_table = create_final_table()
 
         match returned_status:
-            case status.MaxIterReached:
+            case MaxIterReached():
                 console.print(f"{num_iters} iterations completed\n")
-            case status.UserTerminated:
+            case UserTerminated():
                 console.print(":stop_sign: Plot window closed\n")
 
-        final_table = create_final_table()
         console.print("Exiting simulation with the following end state:", style="bold")
         console.print(final_table)
 
