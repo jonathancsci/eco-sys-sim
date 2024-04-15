@@ -38,7 +38,7 @@ def main(
         ecosystem = Ecosystem(rows, cols)
         # for _ in track(range(num_iters), description="Simulation progress"):
         #     time.sleep(0.1)
-        returned_status, final_populations = ecosystem.run_simulation(max_iters=num_iters)
+        returned_status, final_populations = ecosystem.run_simulation(num_iters)
         final_table = create_final_table(final_populations)
 
         match returned_status:
