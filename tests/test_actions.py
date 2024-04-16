@@ -8,6 +8,7 @@ from eco_sys_sim.actions.eat_action import EatAction
 from eco_sys_sim.actions.graze_action import GrazeAction
 from eco_sys_sim.actions.move_action import MoveAction
 from eco_sys_sim.actions.reproduce_action import ReproduceAction
+from eco_sys_sim.actions.rest_action import RestAction
 
 
 class TestActions:
@@ -26,16 +27,9 @@ class TestActions:
         fox = Fox()
         rabbit = Rabbit()
         action = AttackAction(fox, 1, rabbit)
-        action.execute()
-        action.execute()
-        action.execute()
-        action.execute()
-        action.execute()
-        action.execute()
-        action.execute()
-        action.execute()
-        action.execute()
-        action.execute()
+        while(rabbit.alive):
+            action.execute()
+            fox.energy = 20
         assert not rabbit.alive
 
     def test_eat(self):
@@ -71,3 +65,19 @@ class TestActions:
         action.execute()
         assert len(grid.occupants) > 2
         assert rabbit1.energy == 2
+
+    def test_rest(self):
+        rabbit = Rabbit()
+        action = RestAction(rabbit)
+        action.execute()
+        action.execute()
+        action.execute()
+        assert rabbit.energy == 3
+
+    def test_starvation(self):
+        fox = Fox()
+        rabbit = Rabbit()
+        fox.energy = .1
+        action = AttackAction(fox, 1, rabbit)
+        action.execute()
+        assert not fox.alive
