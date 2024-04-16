@@ -32,7 +32,9 @@ class Grid:
         self._occupants.append(occupant)
 
     def remove_occupant(self, occupant):
-        self._occupants.remove(occupant)
+        print("REMOVING")
+        if occupant in self._occupants:
+            self._occupants.remove(occupant)
 
     def step(self):
         actions = []

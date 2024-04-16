@@ -24,10 +24,6 @@ class Animal:
     def size(self):
         return self._size
 
-    @size.setter
-    def size(self, size):
-        self._size = size
-
     # boolean value for whether an animal is alive
     @property
     def alive(self):
@@ -84,48 +80,61 @@ class Animal:
         self._attacks = []
 
     def step(self, grid: Grid):
-        self.init_scores(grid)
-        for rm in self.preferences.keys():
-            self.score_grid(rm)
-        target = max(self.preferences, key=self.preferences.get)
-        if(target != grid):
-            return MoveAction(self, self.size * 0.1, grid, target)
-        foe = self.check_for_fight(grid)
-        if(foe):
-            return AttackAction(self, foe, foe.size*.5-self.size*.1)
-        mate = self.check_for_mate(grid)
-        if(mate):
-            return ReproduceAction(self,self.size,mate,grid,type(self))
-        food = self.check_for_food(grid)
-        if(food):
-            if(type(food)==Animal):
-                return EatAction(self,food,grid)
-            else:
-                return GrazeAction(self,grid)
+        if(self.alive):
+            #check for moving
+            self.init_scores(grid)
+            for rm in self.preferences.keys():
+                self.score_grid(rm)
+            target = max(self.preferences, key=self.preferences.get)
+            if(target != grid):
+                return MoveAction(self, self.size * 0.1, grid, target)
+
+            #print("here: "+str(self.preferences[grid]))
+            #print("elsewhere:")
+            #for i in self.preferences.keys():
+                #if(not i == grid):
+                    #print("> "+str(self.preferences[i]))
+            
+            #check for attacking
+            foe = self.check_for_fight(grid)
+            if(foe):
+                return AttackAction(self, foe.size*.5-self.size*.1, foe)
+            #check for mating
+            mate = self.check_for_mate(grid)
+            if(mate):
+                return ReproduceAction(self,self.size,mate,grid,type(self))
+            #check for eating
+            food = self.check_for_food(grid)
+            if(food):
+                if(isinstance(food,Animal)):
+                    return EatAction(self,food,grid)
+                else:
+                    return GrazeAction(self,grid)
+        #if you aren't alive or have nothing to do, do nothing
         return RestAction(self)  
 
     def init_scores(self, grid: Grid):
-        self.preferences = dict.fromkeys(grid.neighbors, pow((self.size-self.energy),2)+self.dice_roll()*2)
-        self.preferences.update({grid: (self.size*2)+self.dice_roll()*2})
+        self.preferences = dict.fromkeys(grid.neighbors, self.energy/2+self.dice_roll())
+        self.preferences.update({grid: self.size+self.dice_roll()})
 
     def score_grid(self, grid):
         for o in grid.occupants:
             #animals prefer to move away from their predators
             if type(o) in self.fears:
-                self.add_grid_score(-100, grid)
+                self.add_grid_score(-50, grid)
                 #animals that fight back will prefer to stay if the predator is on top of them though
-                if(not(self in grid.occupants and self.fights_back)):
-                    self.add_grid_score(150, grid)
+                if(self in grid.occupants and self.fights_back):
+                    self.add_grid_score(70, grid)
                 #animals will avoid rooms that their predators can approach them from (everything is viewed as a predator if skittish)
                 if(self in o.attacks):
                     for rm in grid.neighbors:
-                        self.add_grid_score(-50, grid)
+                        self.add_grid_score(-30, grid)
             #carnivores prefer to move towards their prey when they are hungry
             elif ((type(o) in self.attacks) and (not self.is_full())):
                 self.add_grid_score(o.nutritional_value(), grid)
             #herding animals and animals that can mate prefer to move towards eachother
-            elif ((self.herds or self.can_mate()) and (type(o) == type(self))):
-                self.add_grid_score(5+self.energy)
+            elif ((self.herds or self.can_mate()) and (type(o) == type(self)) and (not o == self)):
+                self.add_grid_score(5+self.energy/2, grid)
         #herbivores prefer taller grass
         if(self.diet == Animal.eat_grass and not self.is_full()):
             self.add_grid_score(grid.grass_level, grid)
@@ -137,7 +146,7 @@ class Animal:
                     return o
         if not self.is_full():
             for o in grid.occupants:
-                if(type(o) in self.attacks):
+                if(type(o) in self.attacks and o.alive):
                     return o
         return None
 
