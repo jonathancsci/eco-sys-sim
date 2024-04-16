@@ -75,8 +75,6 @@ class TestAnimals:
         area[0].add_occupant(bear)
         action1 = fox.step(area[0])
         action2 = rabbit.step(area[0])
-        print("energy = "+str(action1.animal.energy))
-        print("energy cost = "+str(action1.energy_cost))
         action1.execute()
         action2.execute()
         assert fox in area[1].occupants
@@ -135,7 +133,6 @@ class TestAnimals:
         action.execute()
         assert len(area[0].occupants) == 3
         #fox is tired
-        print(fox1.energy)
         action = fox1.step(area[0])
         action.execute()
         assert len(area[0].occupants+area[1].occupants) == 3
