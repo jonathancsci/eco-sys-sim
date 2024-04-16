@@ -32,7 +32,6 @@ class Grid:
         self._occupants.append(occupant)
 
     def remove_occupant(self, occupant):
-        print("REMOVING")
         if occupant in self._occupants:
             self._occupants.remove(occupant)
 

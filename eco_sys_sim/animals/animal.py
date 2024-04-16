@@ -88,13 +88,6 @@ class Animal:
             target = max(self.preferences, key=self.preferences.get)
             if(target != grid):
                 return MoveAction(self, self.size * 0.1, grid, target)
-
-            #print("here: "+str(self.preferences[grid]))
-            #print("elsewhere:")
-            #for i in self.preferences.keys():
-                #if(not i == grid):
-                    #print("> "+str(self.preferences[i]))
-            
             #check for attacking
             foe = self.check_for_fight(grid)
             if(foe):
@@ -136,7 +129,7 @@ class Animal:
             elif ((self.herds or self.can_mate()) and (type(o) == type(self)) and (not o == self)):
                 self.add_grid_score(5+self.energy/2, grid)
         #herbivores prefer taller grass
-        if(self.diet == Animal.eat_grass and not self.is_full()):
+        if(self.diet == Animal.eat_grass and grid.grass_level >= self.size/2 and not self.is_full()):
             self.add_grid_score(grid.grass_level, grid)
     
     def check_for_fight(self, grid: Grid):
@@ -167,7 +160,7 @@ class Animal:
         return None
     
     def eat_grass(self, grid: Grid):
-        if(grid.grass_level >= self.size):
+        if(grid.grass_level >= self.size/2):
             return grid.grass_level
         return None
 
