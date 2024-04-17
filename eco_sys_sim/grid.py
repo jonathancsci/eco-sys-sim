@@ -5,7 +5,7 @@ class Grid:
     def __init__(self):
         self._occupants: list = list()
         self._neighbors: list[Grid] = list()
-        self._grass_level: int = 12
+        self._grass_level: int = 8
 
     @property
     def occupants(self):
@@ -29,7 +29,7 @@ class Grid:
 
     @grass_level.setter
     def grass_level(self, grass_level):
-        self._grass_level = grass_level
+        self._grass_level = max(grass_level,12)
 
     def add_occupant(self, occupant):
         self._occupants.append(occupant)
@@ -46,5 +46,5 @@ class Grid:
             actions.append(o.step(self))
             if not o.alive:
                 fertelizer_bonus = 1
-        self.grass_level += 1+fertelizer_bonus
+        self.grass_level += 2+fertelizer_bonus
         return actions

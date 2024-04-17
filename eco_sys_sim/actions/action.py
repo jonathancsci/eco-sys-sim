@@ -1,3 +1,6 @@
+import random
+
+
 class Action:
     # acting animal
     @property
@@ -21,8 +24,11 @@ class Action:
         if self.animal.alive:
             self.animal.energy = self.animal.energy - self.energy_cost
             self.action()
-            if self.animal.energy <= 0:
-                self.animal.alive = False
+        if self.animal.energy <= 0 or random.random() < self.animal.age:
+            self.animal.alive = False
+        else:
+            self.animal.age_up()
+        
 
     def action(self):
         raise NotImplementedError

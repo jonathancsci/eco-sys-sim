@@ -19,6 +19,16 @@ class Animal:
     def energy(self, energy):
         self._energy = energy
 
+    # the animal's age
+    @property
+    def age(self):
+        return self._age
+
+    # the rate an animal ages at
+    @property
+    def age_coeff(self):
+        return self._age_coeff
+
     # size provides a higher chance of winning combat and is the baseline for energy gained from eating the animal, it may also factor into energy cost as well
     @property
     def size(self):
@@ -68,11 +78,13 @@ class Animal:
         self._preferences = preferences
 
     # full list of methods
-    def __init__(self, size):
+    def __init__(self, size, age_coeff):
         self._alive = True
         self._preferences = {}
         self._size = size
-        self._energy = size * 1.5
+        self._age = -4
+        self._age_coeff = age_coeff
+        self._energy = size * 2
         self._fights_back = False
         self._herds = False
         self._diet = Animal.eat_grass
@@ -108,7 +120,7 @@ class Animal:
 
     def init_scores(self, grid: Grid):
         self.preferences = dict.fromkeys(grid.neighbors, self.energy/2+self.dice_roll())
-        self.preferences.update({grid: self.size+self.dice_roll()})
+        self.preferences.update({grid: (self.size/2-self.energy/2)+self.dice_roll()})
 
     def score_grid(self, grid):
         for o in grid.occupants:
@@ -126,8 +138,11 @@ class Animal:
             elif ((type(o) in self.attacks) and (not self.is_full())):
                 self.add_grid_score(o.nutritional_value(), grid)
             #herding animals and animals that can mate prefer to move towards eachother
-            elif ((self.herds or self.can_mate()) and (type(o) == type(self)) and (not o == self)):
-                self.add_grid_score(5+self.energy/2, grid)
+            elif ((type(o) == type(self)) and (not o == self)):
+                if((self.herds) and (o not in grid.occupants)):
+                    self.add_grid_score(3)
+                if(self.can_mate()):
+                    self.add_grid_score(self.energy/2, grid)
         #herbivores prefer taller grass
         if(self.diet == Animal.eat_grass and grid.grass_level >= self.size/2 and not self.is_full()):
             self.add_grid_score(grid.grass_level, grid)
@@ -139,7 +154,7 @@ class Animal:
                     return o
         if not self.is_full():
             for o in grid.occupants:
-                if(type(o) in self.attacks and o.alive):
+                if((type(o) in self.attacks) and o.alive):
                     return o
         return None
 
@@ -175,7 +190,10 @@ class Animal:
         return self.energy >= 2 * self.size
 
     def is_full(self):
-        return self.energy >= 3 * self.size
+        return self.energy >= 4 * self.size
+
+    def age_up(self):
+        self._age += self._age_coeff
 
     def dice_roll(self):
         return random.randint(1, 7)

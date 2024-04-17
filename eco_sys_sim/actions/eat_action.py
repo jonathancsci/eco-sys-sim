@@ -20,5 +20,7 @@ class EatAction(Action):
 
     def action(self):
         if(self.target in self.current_grid.occupants):
-            self.animal.energy += self.target.nutritional_value()
+            self.animal.energy += self.target.nutritional_value()*3
             self.current_grid.remove_occupant(self.target)
+        #else:
+            #print("FAILED TO EAT")
