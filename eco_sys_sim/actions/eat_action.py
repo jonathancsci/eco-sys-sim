@@ -19,5 +19,6 @@ class EatAction(Action):
         self._target = target
 
     def action(self):
-        self.animal.energy += self.target.nutritional_value()
-        self.current_grid.remove_occupant(self.target)
+        if(self.target in self.current_grid.occupants):
+            self.animal.energy += self.target.nutritional_value()
+            self.current_grid.remove_occupant(self.target)

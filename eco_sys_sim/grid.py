@@ -1,3 +1,6 @@
+import operator
+
+
 class Grid:
     def __init__(self):
         self._occupants: list = list()
@@ -38,9 +41,10 @@ class Grid:
     def step(self):
         fertelizer_bonus = 0
         actions = []
+        self.occupants.sort(key=operator.attrgetter('size'))
         for o in self.occupants:
             actions.append(o.step(self))
             if not o.alive:
-                fertelizer_bonus += 1
+                fertelizer_bonus = 1
         self.grass_level += 1+fertelizer_bonus
         return actions
