@@ -11,5 +11,6 @@ class RestAction(Action):
         self._animal = animal
         self._energy_cost = 0
 
-    def action(self):
+    #skips spending energy and also skips aging
+    def execute(self):
         return

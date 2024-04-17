@@ -27,19 +27,19 @@ def main(
         help="Number of iterations to run the simulation for. The simulation runs at a rate of 10 Hz",
     ),
     init_num_bears: int = typer.Option(
-        default=2, prompt="Initial number of bears", help="Initial number of bears"
+        default=5, prompt="Initial number of bears", help="Initial number of bears"
     ),
     init_num_wolves: int = typer.Option(
-        default=3, prompt="Initial number of wolves", help="Initial number of wolves"
+        default=15, prompt="Initial number of wolves", help="Initial number of wolves"
     ),
     init_num_foxes: int = typer.Option(
-        default=5, prompt="Initial number of foxes", help="Initial number of foxes"
+        default=25, prompt="Initial number of foxes", help="Initial number of foxes"
     ),
     init_num_deer: int = typer.Option(
-        default=10, prompt="Initial number of deer", help="Initial number of deer"
+        default=25, prompt="Initial number of deer", help="Initial number of deer"
     ),
     init_num_rabbits: int = typer.Option(
-        default=30, prompt="Initial number of rabbits", help="Initial number of rabbits"
+        default=60, prompt="Initial number of rabbits", help="Initial number of rabbits"
     ),
 ):
     if not (0 <= probability_of_obstacles < 1):

@@ -124,19 +124,20 @@ class Environment:
         }
         for grid in self._grid_map.values():
             for occupant in grid.occupants:
-                match occupant:
-                    case Bear():
-                        population_counter['bear'] += 1
-                    case Wolf():
-                        population_counter['wolf'] += 1
-                    case Fox():
-                        population_counter['fox'] += 1
-                    case Deer():
-                        population_counter['deer'] += 1
-                    case Rabbit():
-                        population_counter['rabbit'] += 1
-                    case _:
-                        raise ValueError("Unknown animal type")
+                if(occupant.alive):
+                    match occupant:
+                        case Bear():
+                            population_counter['bear'] += 1
+                        case Wolf():
+                            population_counter['wolf'] += 1
+                        case Fox():
+                            population_counter['fox'] += 1
+                        case Deer():
+                            population_counter['deer'] += 1
+                        case Rabbit():
+                            population_counter['rabbit'] += 1
+                        case _:
+                            raise ValueError("Unknown animal type")
 
         return population_counter
 
@@ -148,6 +149,7 @@ class Environment:
         for grid in self._grid_map.values():
             actions += grid.step()
         for action in actions:
+            #print(action)
             action.execute()
 
         self._iter_counter += 1

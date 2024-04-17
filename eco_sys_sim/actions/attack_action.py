@@ -20,5 +20,10 @@ class AttackAction(Action):
         self._target = target
 
     def action(self):
-        if self.target in self.current_grid.occupants and random.random() > 0.5:
-            self.target.alive = False
+        if self.target in self.current_grid.occupants:
+            if random.random() > .5-(.1*self.animal.size)+(.1*self.target.size):
+                self.target.alive = False
+            else:
+                self.target.age_up() #if someone tries to kill you it takes years off your life
+        #elif not self.target in self.current_grid.occupants:
+            #print("FAILED TO ATTACK")
