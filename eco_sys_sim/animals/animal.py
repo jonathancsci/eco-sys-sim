@@ -91,7 +91,7 @@ class Animal:
             #check for attacking
             foe = self.check_for_fight(grid)
             if(foe):
-                return AttackAction(self, foe.size*.5-self.size*.1, foe)
+                return AttackAction(self, foe.size*.5-self.size*.1, grid, foe)
             #check for mating
             mate = self.check_for_mate(grid)
             if(mate):
