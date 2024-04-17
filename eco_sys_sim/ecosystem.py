@@ -42,6 +42,7 @@ class Ecosystem:
             if not plt.get_fignums():
                 status = UserTerminated()
                 break
+        plt.close('all')
         status = MaxIterReached() if not status else status
         final_populations = self._environment.count_animal_populations()
         return status, final_populations
