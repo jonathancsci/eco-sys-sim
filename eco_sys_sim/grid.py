@@ -32,10 +32,15 @@ class Grid:
         self._occupants.append(occupant)
 
     def remove_occupant(self, occupant):
-        self._occupants.remove(occupant)
+        if occupant in self._occupants:
+            self._occupants.remove(occupant)
 
     def step(self):
+        fertelizer_bonus = 0
         actions = []
         for o in self.occupants:
             actions.append(o.step(self))
+            if not o.alive:
+                fertelizer_bonus += 1
+        self.grass_level += 1+fertelizer_bonus
         return actions
