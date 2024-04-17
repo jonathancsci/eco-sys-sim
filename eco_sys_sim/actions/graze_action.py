@@ -2,11 +2,6 @@ from .action import Action
 
 
 class GrazeAction(Action):
-    # current grid
-    @property
-    def current_grid(self):
-        return self._current_grid
-
     def __init__(self, animal, current_grid):
         self._animal = animal
         self._energy_cost = 0
@@ -14,5 +9,5 @@ class GrazeAction(Action):
 
     def action(self):
         graze = min(self.animal.size*.5, self.current_grid.grass_level*.5)
-        self.animal.energy += graze
+        self.animal.energy += graze*2
         self.current_grid.grass_level -= graze

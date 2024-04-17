@@ -2,15 +2,12 @@ from .action import Action
 
 
 class RestAction(Action):
-    # current grid
-    @property
-    def current_grid(self):
-        return self._current_grid
 
-    def __init__(self, animal):
+    def __init__(self, animal, grid):
         self._animal = animal
+        self._current_grid = grid
         self._energy_cost = 0
 
     #skips spending energy and also skips aging
-    def execute(self):
+    def action(self):
         return

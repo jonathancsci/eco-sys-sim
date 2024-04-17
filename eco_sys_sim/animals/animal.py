@@ -24,6 +24,10 @@ class Animal:
     def age(self):
         return self._age
 
+    @age.setter
+    def age(self, age):
+        self._age = age
+
     # the rate an animal ages at
     @property
     def age_coeff(self):
@@ -82,9 +86,9 @@ class Animal:
         self._alive = True
         self._preferences = {}
         self._size = size
-        self._age = -4
+        self._age = -1.5
         self._age_coeff = age_coeff
-        self._energy = size * 2
+        self._energy = size * 1.5
         self._fights_back = False
         self._herds = False
         self._diet = Animal.eat_grass
@@ -93,29 +97,26 @@ class Animal:
 
     def step(self, grid: Grid):
         if(self.alive):
-            #check for moving
             action = self.check_for_move(grid)
-            #check for fending off
             action = self.check_for_self_defense(grid,action)
-            #check for mating
             action = self.check_for_mate(grid,action)
-            #check for eating
             action = self.check_for_food(grid,action)
-            #check for hunting
             action = self.check_for_hunt(grid,action)
             if(not action is None):
                 return action
         #if you aren't alive or have nothing to do, do nothing
-        return RestAction(self)
+        return RestAction(self,grid)
 
     def init_scores(self, grid: Grid):
         self.preferences = dict.fromkeys(grid.neighbors, self.energy/2+self.dice_roll())
-        self.preferences.update({grid: (self.size/2-self.energy/2)+self.dice_roll()})
+        self.preferences.update({grid: self.dice_roll()})
 
     def check_for_move(self, grid):
         self.init_scores(grid)
         for rm in self.preferences.keys():
             self.score_grid(rm)
+        if(self.preferences[grid] < 0):
+            self.age_up() #being near a predator is stressful
         target = max(self.preferences, key=self.preferences.get)
         if(target != grid):
             return MoveAction(self, self.size * 0.1, grid, target)
@@ -128,7 +129,7 @@ class Animal:
             if type(o) in self.fears:
                 self.add_grid_score(-50, grid)
                 #animals that fight back will prefer to stay if the predator is on top of them though
-                if(self in grid.occupants and self.fights_back):
+                if(self in grid.occupants and self.fights_back and random.random() > .75):
                     self.add_grid_score(70, grid)
                 #animals will avoid rooms that their predators can approach them from (everything is viewed as a predator if skittish)
                 if(self in o.attacks):
@@ -153,7 +154,7 @@ class Animal:
         if self.fights_back:
             for o in grid.occupants:
                 if(o.alive and (type(o) in self.fears)):
-                    return AttackAction(self, o.size*.5-self.size*.1, grid, o)
+                    return AttackAction(self, o.size*.3-self.size*.1, grid, o)
         return None
     
     def check_for_hunt(self, grid: Grid, current_plan):
@@ -162,7 +163,7 @@ class Animal:
         if not self.is_full():
             for o in grid.occupants:
                 if(o.alive and (type(o) in self.attacks)):
-                    return AttackAction(self, o.size*.5-self.size*.1, grid, o)
+                    return AttackAction(self, o.size*.2-self.size*.1, grid, o)
         return None
 
     def check_for_food(self, grid: Grid, current_plan):
@@ -186,7 +187,7 @@ class Animal:
         return None
     
     def eat_grass(self, grid: Grid):
-        if(grid.grass_level >= self.size/2):
+        if(not self.is_full() and grid.grass_level >= self.size/2):
             return GrazeAction(self,grid)
         return None
 
@@ -201,7 +202,7 @@ class Animal:
         return self.energy >= 2 * self.size
 
     def is_full(self):
-        return self.energy >= 4 * self.size
+        return self.energy >= 3 * self.size
 
     def age_up(self):
         self._age += self._age_coeff
