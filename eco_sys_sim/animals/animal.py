@@ -94,33 +94,33 @@ class Animal:
     def step(self, grid: Grid):
         if(self.alive):
             #check for moving
-            self.init_scores(grid)
-            for rm in self.preferences.keys():
-                self.score_grid(rm)
-            target = max(self.preferences, key=self.preferences.get)
-            if(target != grid):
-                return MoveAction(self, self.size * 0.1, grid, target)
-            #check for attacking
-            foe = self.check_for_fight(grid)
-            if(foe):
-                return AttackAction(self, foe.size*.5-self.size*.1, grid, foe)
+            action = self.check_for_move(grid)
+            #check for fending off
+            action = self.check_for_self_defense(grid,action)
             #check for mating
-            mate = self.check_for_mate(grid)
-            if(mate):
-                return ReproduceAction(self,self.size,mate,grid,type(self))
+            action = self.check_for_mate(grid,action)
             #check for eating
-            food = self.check_for_food(grid)
-            if(food):
-                if(isinstance(food,Animal)):
-                    return EatAction(self,food,grid)
-                else:
-                    return GrazeAction(self,grid)
+            action = self.check_for_food(grid,action)
+            #check for hunting
+            action = self.check_for_hunt(grid,action)
+            if(not action is None):
+                return action
         #if you aren't alive or have nothing to do, do nothing
-        return RestAction(self)  
+        return RestAction(self)
 
     def init_scores(self, grid: Grid):
         self.preferences = dict.fromkeys(grid.neighbors, self.energy/2+self.dice_roll())
         self.preferences.update({grid: (self.size/2-self.energy/2)+self.dice_roll()})
+
+    def check_for_move(self, grid):
+        self.init_scores(grid)
+        for rm in self.preferences.keys():
+            self.score_grid(rm)
+        target = max(self.preferences, key=self.preferences.get)
+        if(target != grid):
+            return MoveAction(self, self.size * 0.1, grid, target)
+        else:
+            return None
 
     def score_grid(self, grid):
         for o in grid.occupants:
@@ -147,36 +147,47 @@ class Animal:
         if(self.diet == Animal.eat_grass and grid.grass_level >= self.size/2 and not self.is_full()):
             self.add_grid_score(grid.grass_level, grid)
     
-    def check_for_fight(self, grid: Grid):
+    def check_for_self_defense(self, grid: Grid, current_plan):
+        if(not current_plan is None):
+            return current_plan
         if self.fights_back:
             for o in grid.occupants:
-                if(type(o) in self.fears):
-                    return o
+                if(o.alive and (type(o) in self.fears)):
+                    return AttackAction(self, o.size*.5-self.size*.1, grid, o)
+        return None
+    
+    def check_for_hunt(self, grid: Grid, current_plan):
+        if(not current_plan is None):
+            return current_plan
         if not self.is_full():
             for o in grid.occupants:
-                if((type(o) in self.attacks) and o.alive):
-                    return o
+                if(o.alive and (type(o) in self.attacks)):
+                    return AttackAction(self, o.size*.5-self.size*.1, grid, o)
         return None
 
-    def check_for_food(self, grid: Grid):
+    def check_for_food(self, grid: Grid, current_plan):
+        if(not current_plan is None):
+            return current_plan
         return self.diet(self, grid)
   
-    def check_for_mate(self, grid: Grid):
+    def check_for_mate(self, grid: Grid, current_plan):
+        if(not current_plan is None):
+            return current_plan
         if self.can_mate():
             for o in grid.occupants:
                 if(type(o) == type(self) and o != self):
-                    return o
+                    return ReproduceAction(self,self.size,o,grid,type(self))
         return None
 
     def eat_meat(self, grid: Grid):
         for o in grid.occupants:
             if not o.alive:
-                return o
+                return EatAction(self,o,grid)
         return None
     
     def eat_grass(self, grid: Grid):
         if(grid.grass_level >= self.size/2):
-            return grid.grass_level
+            return GrazeAction(self,grid)
         return None
 
     def add_grid_score(self, value: int, grid):
