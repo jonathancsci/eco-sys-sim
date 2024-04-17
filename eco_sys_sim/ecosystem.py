@@ -17,7 +17,7 @@ class Ecosystem:
             init_num_deer: int = 10,
             init_num_rabbits: int = 30,
         ):
-        self._animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit"]
+        self._animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit", "carrion"]
 
         self._ax = plt.subplots()[1]
         self._plot = Plot(ax=self._ax, animals_list=self._animals_list)

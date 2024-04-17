@@ -11,10 +11,10 @@ console = Console()
 
 def main(
     rows: int = typer.Option(
-        default=5, prompt="Rows", help="Number of rows in the grid map"
+        default=20, prompt="Rows", help="Number of rows in the grid map"
     ),
     cols: int = typer.Option(
-        default=10, prompt="Columns", help="Number of columns in the grid map"
+        default=20, prompt="Columns", help="Number of columns in the grid map"
     ),
     probability_of_obstacles: float = typer.Option(
         default=0.2,
@@ -22,24 +22,24 @@ def main(
         help="Probability that a grid will be an obstacle (%)",
     ),
     num_iters: int = typer.Option(
-        default=100,
+        default=300,
         prompt="Number of iterations (at 10Hz)",
         help="Number of iterations to run the simulation for. The simulation runs at a rate of 10 Hz",
     ),
     init_num_bears: int = typer.Option(
-        default=5, prompt="Initial number of bears", help="Initial number of bears"
+        default=15, prompt="Initial number of bears", help="Initial number of bears"
     ),
     init_num_wolves: int = typer.Option(
-        default=15, prompt="Initial number of wolves", help="Initial number of wolves"
+        default=25, prompt="Initial number of wolves", help="Initial number of wolves"
     ),
     init_num_foxes: int = typer.Option(
-        default=25, prompt="Initial number of foxes", help="Initial number of foxes"
+        default=50, prompt="Initial number of foxes", help="Initial number of foxes"
     ),
     init_num_deer: int = typer.Option(
-        default=25, prompt="Initial number of deer", help="Initial number of deer"
+        default=100, prompt="Initial number of deer", help="Initial number of deer"
     ),
     init_num_rabbits: int = typer.Option(
-        default=60, prompt="Initial number of rabbits", help="Initial number of rabbits"
+        default=200, prompt="Initial number of rabbits", help="Initial number of rabbits"
     ),
 ):
     if not (0 <= probability_of_obstacles < 1):
@@ -74,7 +74,7 @@ def main(
             init_num_wolves,
             init_num_foxes,
             init_num_deer,
-            init_num_rabbits,
+            init_num_rabbits
         )
         returned_status, final_populations = ecosystem.run_simulation(num_iters)
         final_table = create_final_table(final_populations)
@@ -116,6 +116,7 @@ def create_init_table(
     init_table.add_row(":fox_face: Foxes", f"{init_num_foxes}")
     init_table.add_row(":deer: Deer", f"{init_num_deer}")
     init_table.add_row(":rabbit: Rabbits", f"{init_num_rabbits}")
+    init_table.add_row("Carrion", f"{0}")
     return init_table
 
 
@@ -126,6 +127,7 @@ def create_final_table(final_populations: dict[str, int]) -> Table:
     final_table.add_row(":fox_face: Foxes", f"{final_populations['fox']}")
     final_table.add_row(":deer: Deer", f"{final_populations['deer']}")
     final_table.add_row(":rabbit: Rabbits", f"{final_populations['rabbit']}")
+    final_table.add_row("Carrion", f"{final_populations['carrion']}")
     return final_table
 
 

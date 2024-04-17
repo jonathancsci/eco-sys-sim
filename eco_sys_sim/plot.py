@@ -8,7 +8,7 @@ class Plot:
     def __init__(
         self,
         ax: Axes | None = None,
-        animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit"],
+        animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit", "carrion"],
     ):
         if ax is None: # For tests
             ax = plt.subplots()[1]

@@ -21,7 +21,7 @@ class Environment:
         init_num_foxes: int = 5,
         init_num_deer: int = 10,
         init_num_rabbits: int = 30,
-        animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit"],
+        animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit", "carrion"]
     ):
         self._rows: int = rows
         self._cols: int = cols
@@ -101,15 +101,15 @@ class Environment:
 
     def _populate_grid_map(self) -> None:
         for _ in range(self._init_num_bears):
-            self._get_random_grid().add_occupant(Bear())
+            self._get_random_grid().add_occupant(Bear(random.random()-1))
         for _ in range(self._init_num_wolves):
-            self._get_random_grid().add_occupant(Wolf())
+            self._get_random_grid().add_occupant(Wolf(random.random()-1))
         for _ in range(self._init_num_foxes):
-            self._get_random_grid().add_occupant(Fox())
+            self._get_random_grid().add_occupant(Fox(random.random()-1))
         for _ in range(self._init_num_deer):
-            self._get_random_grid().add_occupant(Deer())
+            self._get_random_grid().add_occupant(Deer(random.random()-1))
         for _ in range(self._init_num_rabbits):
-            self._get_random_grid().add_occupant(Rabbit())
+            self._get_random_grid().add_occupant(Rabbit(random.random()-1))
 
     def attach(self, new_observer: Plot):
         self._observers.append(new_observer)
@@ -138,7 +138,8 @@ class Environment:
                             population_counter['rabbit'] += 1
                         case _:
                             raise ValueError("Unknown animal type")
-
+                else:
+                    population_counter['carrion'] += 1
         return population_counter
 
     def step(self):

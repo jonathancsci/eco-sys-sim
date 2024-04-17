@@ -20,14 +20,20 @@ class Action:
     def energy_cost(self, energy_cost):
         self._energy_cost = energy_cost
 
+    # current grid
+    @property
+    def current_grid(self):
+        return self._current_grid
+
     def execute(self):
         if self.animal.alive:
             self.animal.energy = self.animal.energy - self.energy_cost
             self.action()
         if self.animal.energy <= 0 or random.random() < self.animal.age:
             self.animal.alive = False
-        else:
-            self.animal.age_up()
+        self.animal.age_up()
+        if(self.animal.age > 1):
+            self.current_grid.remove_occupant(self.animal)
         
 
     def action(self):
