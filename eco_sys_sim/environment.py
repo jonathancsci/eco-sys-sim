@@ -101,15 +101,15 @@ class Environment:
 
     def _populate_grid_map(self) -> None:
         for _ in range(self._init_num_bears):
-            self._get_random_grid().add_occupant(Bear(random.random()-1))
+            self._get_random_grid().add_occupant(Bear((random.random()*2)-2))
         for _ in range(self._init_num_wolves):
-            self._get_random_grid().add_occupant(Wolf(random.random()-1))
+            self._get_random_grid().add_occupant(Wolf((random.random()*2)-2))
         for _ in range(self._init_num_foxes):
-            self._get_random_grid().add_occupant(Fox(random.random()-1))
+            self._get_random_grid().add_occupant(Fox((random.random()*2)-2))
         for _ in range(self._init_num_deer):
-            self._get_random_grid().add_occupant(Deer(random.random()-1))
+            self._get_random_grid().add_occupant(Deer((random.random()*2)-2))
         for _ in range(self._init_num_rabbits):
-            self._get_random_grid().add_occupant(Rabbit(random.random()-1))
+            self._get_random_grid().add_occupant(Rabbit((random.random()*2)-2))
 
     def attach(self, new_observer: Plot):
         self._observers.append(new_observer)
