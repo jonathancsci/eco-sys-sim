@@ -11,10 +11,10 @@ console = Console()
 
 def main(
     rows: int = typer.Option(
-        default=20, prompt="Rows", help="Number of rows in the grid map"
+        default=12, prompt="Rows", help="Number of rows in the grid map"
     ),
     cols: int = typer.Option(
-        default=20, prompt="Columns", help="Number of columns in the grid map"
+        default=12, prompt="Columns", help="Number of columns in the grid map"
     ),
     probability_of_obstacles: float = typer.Option(
         default=0.2,

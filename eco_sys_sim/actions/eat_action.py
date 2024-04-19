@@ -15,7 +15,7 @@ class EatAction(Action):
 
     def action(self):
         if(self.target in self.current_grid.occupants):
-            self.animal.energy += self.target.nutritional_value()*3
+            self.animal.energy += self.target.nutritional_value()
             self.current_grid.remove_occupant(self.target)
 
 #wolves share, they eat less but can still eat meat that another animal has eaten
@@ -33,5 +33,5 @@ class PackEatAction(Action):
         self._target = target
 
     def action(self):
-        self.animal.energy += self.target.nutritional_value()*2
+        self.animal.energy += self.target.nutritional_value()/2
         self.current_grid.remove_occupant(self.target)

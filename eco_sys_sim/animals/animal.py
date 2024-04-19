@@ -86,7 +86,7 @@ class Animal:
         self._alive = True
         self._preferences = {}
         self._size = size
-        self._age = -1.5
+        self._age = -2
         self._age_coeff = age_coeff
         self._energy = size * 1.5
         self._fights_back = False
@@ -140,8 +140,8 @@ class Animal:
                 self.add_grid_score(o.nutritional_value(), grid)
             #herding animals and animals that can mate prefer to move towards eachother
             elif ((type(o) == type(self)) and (not o == self)):
-                if((self.herds) and (o not in grid.occupants)):
-                    self.add_grid_score(3)
+                #if((self.herds) and (o not in grid.occupants)):
+                    #self.add_grid_score(3)
                 if(self.can_mate()):
                     self.add_grid_score(self.energy/2, grid)
         #herbivores prefer taller grass
@@ -182,7 +182,7 @@ class Animal:
 
     def eat_meat(self, grid: Grid):
         for o in grid.occupants:
-            if not o.alive:
+            if not o.alive and o.age <= 1.5:
                 return EatAction(self,o,grid)
         return None
     

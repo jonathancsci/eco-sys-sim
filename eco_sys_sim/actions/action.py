@@ -32,7 +32,7 @@ class Action:
         if self.animal.energy <= 0 or random.random() < self.animal.age:
             self.animal.alive = False
         self.animal.age_up()
-        if(self.animal.age > 1):
+        if(self.animal.age > 3):
             self.current_grid.remove_occupant(self.animal)
         
 
