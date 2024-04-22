@@ -21,7 +21,7 @@ class Rabbit(Animal):
                     return RabbitReproduceAction(self,self.size,o,grid,type(self))
 
     def can_mate(self):
-        return self.energy >= 2 * self.size
+        return self.energy >= 1.5 * self.size
     
 class Fox(Animal):
     def __init__(self, age=-1):
