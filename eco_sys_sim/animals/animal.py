@@ -88,7 +88,7 @@ class Animal:
         self._size = size
         self._age = -2
         self._age_coeff = age_coeff
-        self._energy = size * 2
+        self._energy = size 
         self._fights_back = False
         self._herds = False
         self._diet = Animal.eat_grass
