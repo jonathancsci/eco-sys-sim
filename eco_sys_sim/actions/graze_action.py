@@ -9,5 +9,5 @@ class GrazeAction(Action):
 
     def action(self):
         graze = min(self.animal.size*.5, self.current_grid.grass_level*.5)
-        self.animal.energy += graze*3
+        self.animal.energy += graze*2
         self.current_grid.grass_level -= graze

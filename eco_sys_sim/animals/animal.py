@@ -88,7 +88,7 @@ class Animal:
         self._size = size
         self._age = -2
         self._age_coeff = age_coeff
-        self._energy = size * 1.5
+        self._energy = size * 2
         self._fights_back = False
         self._herds = False
         self._diet = Animal.eat_grass
@@ -119,7 +119,7 @@ class Animal:
             self.age_up() #being near a predator is stressful
         target = max(self.preferences, key=self.preferences.get)
         if(target != grid):
-            return MoveAction(self, self.size * 0.1, grid, target)
+            return MoveAction(self, self.size * 0.05, grid, target)
         else:
             return None
 
@@ -140,8 +140,8 @@ class Animal:
                 self.add_grid_score(o.nutritional_value(), grid)
             #herding animals and animals that can mate prefer to move towards eachother
             elif ((type(o) == type(self)) and (not o == self)):
-                #if((self.herds) and (o not in grid.occupants)):
-                    #self.add_grid_score(3)
+                if((self.herds) and (o not in grid.occupants)):
+                    self.add_grid_score(.25)
                 if(self.can_mate()):
                     self.add_grid_score(self.energy/2, grid)
         #herbivores prefer taller grass
@@ -177,12 +177,12 @@ class Animal:
         if self.can_mate():
             for o in grid.occupants:
                 if(type(o) == type(self) and o != self):
-                    return ReproduceAction(self,self.size,o,grid,type(self))
+                    return ReproduceAction(self,self.size*1.5,o,grid,type(self))
         return None
 
     def eat_meat(self, grid: Grid):
         for o in grid.occupants:
-            if not o.alive and o.age <= 1.5:
+            if not o.alive and o.age <= 1.2:
                 return EatAction(self,o,grid)
         return None
     
@@ -205,7 +205,13 @@ class Animal:
         return self.energy >= 3 * self.size
 
     def age_up(self):
-        self._age += self._age_coeff
+        if(self.alive):
+            self._age += self._age_coeff
+        else:
+            if(self._age < 1):
+                self._age = 1
+            else:
+                self._age += .25
 
     def dice_roll(self):
         return random.randint(1, 7)
