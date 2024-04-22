@@ -49,7 +49,7 @@ class Wolf(Animal):
 
     def eat_meat(self, grid: Grid):
         for o in grid.occupants:
-            if (not o.alive) and (o.age <= 1.2) and not self.isinstance(type(o)):
+            if (not o.alive) and (o.age <= 1.2) and not isinstance(self, type(o)):
                 return PackEatAction(self,o,grid)
         return None
 
