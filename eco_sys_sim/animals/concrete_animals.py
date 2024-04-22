@@ -1,6 +1,7 @@
 from .animal import Animal
 from ..actions.eat_action import EatAction
 from ..actions.eat_action import PackEatAction
+from ..actions.reproduce_action import RabbitReproduceAction
 from ..grid import Grid
 
 
@@ -10,6 +11,14 @@ class Rabbit(Animal):
         self._diet = Animal.eat_grass
         self._fears = [Fox, Deer, Wolf, Bear]
         self._age = age
+
+    def check_for_mate(self, grid: Grid, current_plan):
+        if(not current_plan is None):
+            return current_plan
+        if self.can_mate():
+            for o in grid.occupants:
+                if(type(o) == type(self) and o != self):
+                    return RabbitReproduceAction(self,self.size*1,o,grid,type(self))
 
     def can_mate(self):
         return self.energy >= 2 * self.size
