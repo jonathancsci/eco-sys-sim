@@ -11,10 +11,10 @@ console = Console()
 
 def main(
     rows: int = typer.Option(
-        default=12, prompt="Rows", help="Number of rows in the grid map"
+        default=10, prompt="Rows", help="Number of rows in the grid map"
     ),
     cols: int = typer.Option(
-        default=12, prompt="Columns", help="Number of columns in the grid map"
+        default=10, prompt="Columns", help="Number of columns in the grid map"
     ),
     probability_of_obstacles: float = typer.Option(
         default=0.2,
@@ -30,16 +30,16 @@ def main(
         default=15, prompt="Initial number of bears", help="Initial number of bears"
     ),
     init_num_wolves: int = typer.Option(
-        default=25, prompt="Initial number of wolves", help="Initial number of wolves"
+        default=20, prompt="Initial number of wolves", help="Initial number of wolves"
     ),
     init_num_foxes: int = typer.Option(
-        default=50, prompt="Initial number of foxes", help="Initial number of foxes"
+        default=35, prompt="Initial number of foxes", help="Initial number of foxes"
     ),
     init_num_deer: int = typer.Option(
-        default=100, prompt="Initial number of deer", help="Initial number of deer"
+        default=50, prompt="Initial number of deer", help="Initial number of deer"
     ),
     init_num_rabbits: int = typer.Option(
-        default=200, prompt="Initial number of rabbits", help="Initial number of rabbits"
+        default=100, prompt="Initial number of rabbits", help="Initial number of rabbits"
     ),
 ):
     if not (0 <= probability_of_obstacles < 1):

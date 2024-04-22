@@ -33,5 +33,5 @@ class PackEatAction(Action):
         self._target = target
 
     def action(self):
-        self.animal.energy += self.target.nutritional_value()/2
+        self.animal.energy += self.target.nutritional_value()*.5
         self.current_grid.remove_occupant(self.target)
