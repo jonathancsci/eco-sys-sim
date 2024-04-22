@@ -7,7 +7,7 @@ from ..grid import Grid
 
 class Rabbit(Animal):
     def __init__(self, age=-1):
-        super().__init__(2,.1)
+        super().__init__(2,.075)
         self._diet = Animal.eat_grass
         self._fears = [Fox, Deer, Wolf, Bear]
         self._age = age
@@ -18,7 +18,7 @@ class Rabbit(Animal):
         if self.can_mate():
             for o in grid.occupants:
                 if(type(o) == type(self) and o != self):
-                    return RabbitReproduceAction(self,self.size*1,o,grid,type(self))
+                    return RabbitReproduceAction(self,self.size,o,grid,type(self))
 
     def can_mate(self):
         return self.energy >= 2 * self.size
