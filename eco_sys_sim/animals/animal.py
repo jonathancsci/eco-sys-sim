@@ -177,7 +177,7 @@ class Animal:
         if self.can_mate():
             for o in grid.occupants:
                 if(type(o) == type(self) and o != self):
-                    return ReproduceAction(self,self.size*1.5,o,grid,type(self))
+                    return ReproduceAction(self,self.size,o,grid,type(self))
         return None
 
     def eat_meat(self, grid: Grid):
@@ -196,13 +196,13 @@ class Animal:
             self.preferences[grid] += value
 
     def nutritional_value(self):
-        return 2 * self.size + self.energy
+        return self.size + self.energy
 
     def can_mate(self):
         return self.energy >= 2 * self.size
 
     def is_full(self):
-        return self.energy >= 3 * self.size
+        return self.energy >= 5 * self.size
 
     def age_up(self):
         if(self.alive):
