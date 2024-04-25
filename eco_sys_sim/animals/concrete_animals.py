@@ -1,6 +1,7 @@
 from .animal import Animal
 from ..actions.eat_action import EatAction
 from ..actions.eat_action import PackEatAction
+from ..actions.reproduce_action import ReproduceAction
 from ..actions.reproduce_action import RabbitReproduceAction
 from ..grid import Grid
 
@@ -18,10 +19,13 @@ class Rabbit(Animal):
         if self.can_mate():
             for o in grid.occupants:
                 if(type(o) == type(self) and o != self):
-                    return RabbitReproduceAction(self,self.size,o,grid,type(self))
+                    return ReproduceAction(self,self.size*.5,o,grid,type(self))
 
     def can_mate(self):
         return self.energy >= 1.5 * self.size
+    
+    def is_full(self):
+        return self.energy >= 3 * self.size
     
 class Fox(Animal):
     def __init__(self, age=-1):
@@ -46,6 +50,9 @@ class Deer(Animal):
         self._herds = True
         self._age = age
 
+    def is_full(self):
+        return self.energy >= 4 * self.size
+    
 class Wolf(Animal):
     def __init__(self, age=-1):
         super().__init__(6,.02)
