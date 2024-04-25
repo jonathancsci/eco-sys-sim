@@ -7,7 +7,7 @@ from ..grid import Grid
 
 class Rabbit(Animal):
     def __init__(self, age=-1):
-        super().__init__(2,.075)
+        super().__init__(2,.05)
         self._diet = Animal.eat_grass
         self._fears = [Fox, Deer, Wolf, Bear]
         self._age = age
@@ -25,7 +25,7 @@ class Rabbit(Animal):
     
 class Fox(Animal):
     def __init__(self, age=-1):
-        super().__init__(3,.05)
+        super().__init__(3,.03)
         self._diet = Fox.eat_meat
         self._attacks = [Rabbit]
         self._fears = [Wolf, Bear]
@@ -39,20 +39,20 @@ class Fox(Animal):
 
 class Deer(Animal):
     def __init__(self, age=-1):
-        super().__init__(7,.05)
+        super().__init__(5,.02)
         self._diet = Animal.eat_grass
         self._fears = [Wolf, Bear]
-        #self._fights_back = True
-        #self._herds = True
+        self._fights_back = True
+        self._herds = True
         self._age = age
 
 class Wolf(Animal):
     def __init__(self, age=-1):
-        super().__init__(7,.03)
+        super().__init__(6,.02)
         self._diet = Wolf.eat_meat
         self._attacks = [Rabbit, Fox, Deer]
         self._fears = [Bear]
-        #self._herds = True
+        self._herds = True
         self._fights_back = True
         self._age = age
 
@@ -67,17 +67,17 @@ class Wolf(Animal):
 
 class Bear(Animal):
     def __init__(self, age=-1):
-        super().__init__(15,.02)
+        super().__init__(12,.01)
         self._diet = Animal.eat_meat
         self._attacks = [Deer, Wolf]
         self._age = age
 
     def init_scores(self, grid):
-        self.preferences = dict.fromkeys(grid.neighbors, self.energy/2+self.dice_roll())
-        self.preferences.update({grid: (self.size*2)+self.dice_roll()})
+        self.preferences = dict.fromkeys(grid.neighbors, self.energy+self.dice_roll())
+        self.preferences.update({grid: self.size+self.dice_roll()})
 
     def can_mate(self):
-        return self.energy >= 5 * self.size
+        return self.energy >= 3 * self.size
 
     def is_full(self):
-        return self.energy >= 8 * self.size
+        return self.energy >= 5 * self.size

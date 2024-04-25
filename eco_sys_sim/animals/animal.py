@@ -143,7 +143,7 @@ class Animal:
                 if((self.herds) and (o not in grid.occupants)):
                     self.add_grid_score(.25)
                 if(self.can_mate()):
-                    self.add_grid_score(self.energy/2, grid)
+                    self.add_grid_score(self.energy, grid)
         #herbivores prefer taller grass
         if(self.diet == Animal.eat_grass and grid.grass_level >= self.size/2 and not self.is_full()):
             self.add_grid_score(grid.grass_level, grid)
