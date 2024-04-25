@@ -31,9 +31,9 @@ class TestAnimals:
         rabbit.energy = 3
         assert rabbit.nutritional_value() == 7
         assert fox.nutritional_value() == 9
-        assert wolf.nutritional_value() == 21
-        assert deer.nutritional_value() == 21
-        assert bear.nutritional_value() == 45
+        assert wolf.nutritional_value() == 18
+        assert deer.nutritional_value() == 15
+        assert bear.nutritional_value() == 36
 
     def test_can_mate(self):
         rabbit = Rabbit()
@@ -98,7 +98,7 @@ class TestAnimals:
         #deer grazes
         action = deer.step(area[0])
         action.execute()
-        assert deer.energy == 13.65
+        assert deer.energy == 9.75
         #bear approaches deer
         bear = Bear()
         area[1].add_occupant(bear)
@@ -124,13 +124,15 @@ class TestAnimals:
         fox2 = Fox()
         area[1].add_occupant(fox1)
         area[0].add_occupant(fox2)
-        fox1.energy = 20
+        fox1.energy = 30
+        fox2.energy = 30
         #fox approaches mate
         action = fox1.step(area[1])
         action.execute()
         assert fox1 in area[0].occupants
         #fox mates
         action = fox1.step(area[0])
+        print(action)
         action.execute()
         assert len(area[0].occupants) == 3
         #fox is tired

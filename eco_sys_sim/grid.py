@@ -29,7 +29,7 @@ class Grid:
 
     @grass_level.setter
     def grass_level(self, grass_level):
-        self._grass_level = min(grass_level,12)
+        self._grass_level = min(grass_level,20)
 
     def add_occupant(self, occupant):
         self._occupants.append(occupant)
@@ -45,6 +45,6 @@ class Grid:
         for o in self.occupants:
             actions.append(o.step(self))
             if not o.alive:
-                fertelizer_bonus = 1
-        self.grass_level += 2+fertelizer_bonus
+                fertelizer_bonus = 1.5
+        self.grass_level += 2.5+fertelizer_bonus
         return actions
