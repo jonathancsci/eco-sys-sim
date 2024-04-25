@@ -30,10 +30,10 @@ class TestAnimals:
         bear = Bear()
         rabbit.energy = 3
         assert rabbit.nutritional_value() == 7
-        assert fox.nutritional_value() == 10.5
-        assert wolf.nutritional_value() == 17.5
+        assert fox.nutritional_value() == 9
+        assert wolf.nutritional_value() == 21
         assert deer.nutritional_value() == 21
-        assert bear.nutritional_value() == 35
+        assert bear.nutritional_value() == 45
 
     def test_can_mate(self):
         rabbit = Rabbit()
@@ -57,13 +57,13 @@ class TestAnimals:
         wolf = Wolf()
         area[1].add_occupant(deer)
         area[1].add_occupant(wolf)
-        action = deer.step(area[1])
+        action = wolf.step(area[1])
         action.execute()
-        assert deer in area[1].occupants
-        while(wolf.alive):
+        assert wolf in area[1].occupants
+        while(deer.alive):
             action.execute()
-            deer.energy = 20
-        assert not wolf.alive
+            wolf.energy = 20
+        assert not deer.alive
 
     def test_fleeing(self):
         area = self.simple_choice_area()
@@ -88,6 +88,7 @@ class TestAnimals:
         area = self.simple_choice_area()
         area[1].grass_level = 0
         area[2].grass_level = 0
+        area[0].grass_level = 20
         deer = Deer()
         area[1].add_occupant(deer)
         #deer approaches grass
@@ -97,7 +98,7 @@ class TestAnimals:
         #deer grazes
         action = deer.step(area[0])
         action.execute()
-        assert deer.energy == 14.4
+        assert deer.energy == 13.65
         #bear approaches deer
         bear = Bear()
         area[1].add_occupant(bear)
@@ -123,7 +124,7 @@ class TestAnimals:
         fox2 = Fox()
         area[1].add_occupant(fox1)
         area[0].add_occupant(fox2)
-        fox1.energy = 7
+        fox1.energy = 20
         #fox approaches mate
         action = fox1.step(area[1])
         action.execute()
@@ -133,7 +134,8 @@ class TestAnimals:
         action.execute()
         assert len(area[0].occupants) == 3
         #fox is tired
+        fox1.energy = 2
         action = fox1.step(area[0])
         action.execute()
-        assert len(area[0].occupants+area[1].occupants) == 3
+        assert len(area[0].occupants)+len(area[1].occupants) == 3
 

@@ -5,7 +5,7 @@ class Grid:
     def __init__(self):
         self._occupants: list = list()
         self._neighbors: list[Grid] = list()
-        self._grass_level: int = 8
+        self._grass_level: int = 8.0
 
     @property
     def occupants(self):
@@ -29,7 +29,7 @@ class Grid:
 
     @grass_level.setter
     def grass_level(self, grass_level):
-        self._grass_level = max(grass_level,12)
+        self._grass_level = min(grass_level,12)
 
     def add_occupant(self, occupant):
         self._occupants.append(occupant)

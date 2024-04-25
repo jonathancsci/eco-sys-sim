@@ -21,12 +21,15 @@ class TestActions:
         action.execute()
         assert rabbit in grid2.occupants
         assert not rabbit in grid1.occupants
-        assert rabbit.energy == 2.8
+        assert rabbit.energy == 1.8
 
     def test_attack(self):
+        grid = Grid()
         fox = Fox()
         rabbit = Rabbit()
-        action = AttackAction(fox, 1, rabbit)
+        grid.add_occupant(fox)
+        grid.add_occupant(rabbit)
+        action = AttackAction(fox, 1, grid, rabbit)
         while(rabbit.alive):
             action.execute()
             fox.energy = 20
@@ -43,7 +46,7 @@ class TestActions:
         action.execute()
         assert fox in grid.occupants
         assert not rabbit in grid.occupants
-        assert fox.energy == 11.5
+        assert fox.energy == 9
 
     def test_graze(self):
         grid = Grid()
@@ -51,8 +54,8 @@ class TestActions:
         grid.add_occupant(rabbit)
         action = GrazeAction(rabbit, grid)
         action.execute()
-        assert rabbit.energy == 5
-        assert grid.grass_level == 10
+        assert rabbit.energy == 4
+        assert grid.grass_level == 7
 
     def test_reproduce(self):
         grid = Grid()
@@ -67,17 +70,21 @@ class TestActions:
         assert rabbit1.energy == 2
 
     def test_rest(self):
+        grid = Grid()
         rabbit = Rabbit()
-        action = RestAction(rabbit)
+        action = RestAction(rabbit,grid)
         action.execute()
         action.execute()
         action.execute()
-        assert rabbit.energy == 3
+        assert rabbit.energy == 2
 
     def test_starvation(self):
+        grid = Grid()
         fox = Fox()
         rabbit = Rabbit()
+        grid.add_occupant(fox)
+        grid.add_occupant(rabbit)
         fox.energy = .1
-        action = AttackAction(fox, 1, rabbit)
+        action = AttackAction(fox, 1, grid, rabbit)
         action.execute()
         assert not fox.alive
