@@ -132,7 +132,6 @@ class TestAnimals:
         assert fox1 in area[0].occupants
         #fox mates
         action = fox1.step(area[0])
-        print(action)
         action.execute()
         assert len(area[0].occupants) == 3
         #fox is tired
