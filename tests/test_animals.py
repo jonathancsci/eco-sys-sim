@@ -29,11 +29,11 @@ class TestAnimals:
         deer = Deer()
         bear = Bear()
         rabbit.energy = 3
-        assert rabbit.nutritional_value() == 7
-        assert fox.nutritional_value() == 9
-        assert wolf.nutritional_value() == 18
-        assert deer.nutritional_value() == 15
-        assert bear.nutritional_value() == 36
+        assert rabbit.nutritional_value() == 5
+        assert fox.nutritional_value() == 6
+        assert wolf.nutritional_value() == 12
+        assert deer.nutritional_value() == 10
+        assert bear.nutritional_value() == 24
 
     def test_can_mate(self):
         rabbit = Rabbit()

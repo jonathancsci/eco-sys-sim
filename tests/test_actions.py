@@ -46,7 +46,7 @@ class TestActions:
         action.execute()
         assert fox in grid.occupants
         assert not rabbit in grid.occupants
-        assert fox.energy == 9
+        assert fox.energy == 7
 
     def test_graze(self):
         grid = Grid()

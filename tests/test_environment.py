@@ -47,17 +47,8 @@ class TestEnvironment:
             assert len(neighbors_list) == 0
 
     def test_step(self):
-        pass
-        # for _ in range(20):
-        #     self.environment.step()
-
-        # self.environment.step()
-        # animal = None
-        # for grid in environment._grid_map.values():
-        #     if len(grid.occupants) > 0:
-        #         animal = grid.occupants[0]
-        #         break
-        # assert isinstance(animal, Animal)
+        for _ in range(25):
+            self.environment.step()
 
     def test_observer(self):
         dummy_data = {animal: random.randint(0, 9) for animal in self.animals_list}
