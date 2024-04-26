@@ -1,8 +1,11 @@
+import operator
+
+
 class Grid:
     def __init__(self):
         self._occupants: list = list()
         self._neighbors: list[Grid] = list()
-        self._grass_level: int = 12
+        self._grass_level: int = 8.0
 
     @property
     def occupants(self):
@@ -26,16 +29,22 @@ class Grid:
 
     @grass_level.setter
     def grass_level(self, grass_level):
-        self._grass_level = grass_level
+        self._grass_level = min(grass_level,20)
 
     def add_occupant(self, occupant):
         self._occupants.append(occupant)
 
     def remove_occupant(self, occupant):
-        self._occupants.remove(occupant)
+        if occupant in self._occupants:
+            self._occupants.remove(occupant)
 
     def step(self):
+        fertelizer_bonus = 0
         actions = []
+        self.occupants.sort(key=operator.attrgetter('size'))
         for o in self.occupants:
             actions.append(o.step(self))
+            if not o.alive:
+                fertelizer_bonus = 1.5
+        self.grass_level += 2.5+fertelizer_bonus
         return actions

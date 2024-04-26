@@ -9,4 +9,4 @@ class TestGrid:
     def test_constructor(self):
         assert isinstance(self.instance._occupants, list)
         assert isinstance(self.instance._neighbors, list)
-        assert self.instance._grass_level == 12
+        assert self.instance._grass_level == 8

@@ -1,7 +1,11 @@
 import numpy as np
 import random
 from .animals.animal import Animal
-from .animals.rabbit import Rabbit
+from .animals.concrete_animals import Rabbit
+from .animals.concrete_animals import Fox
+from .animals.concrete_animals import Deer
+from .animals.concrete_animals import Wolf
+from .animals.concrete_animals import Bear
 from .grid import Grid
 from .plot import Plot
 
@@ -11,16 +15,29 @@ class Environment:
         self,
         rows: int = 5,
         cols: int = 10,
-        animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit"],
+        probability_of_obstacles: int = 0.2,
+        init_num_bears: int = 2,
+        init_num_wolves: int = 3,
+        init_num_foxes: int = 5,
+        init_num_deer: int = 10,
+        init_num_rabbits: int = 30,
+        animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit", "carrion"]
     ):
         self._rows: int = rows
         self._cols: int = cols
         self._animals_list: list[str] = animals_list
         self._observers: list[Plot] = list()
         self._iter_counter: int = 0
+        self._probability_of_obstacles = probability_of_obstacles
+        self._init_num_bears = init_num_bears
+        self._init_num_wolves = init_num_wolves
+        self._init_num_foxes = init_num_foxes
+        self._init_num_deer = init_num_deer
+        self._init_num_rabbits = init_num_rabbits
 
         self._obstacle_grid: np.ndarray = self._create_obstacle_grid()
         self._grid_map: dict[tuple, Grid] = self._create_grid_map()
+        self._populate_grid_map()
 
     @property
     def iter_counter(self):
@@ -49,12 +66,15 @@ class Environment:
         return neighbors
 
     def _create_obstacle_grid(self) -> np.ndarray:
-        obstacles = np.zeros((self._rows, self._cols), dtype=int)
-        for y in range(self._rows):
-            for x in range(self._cols):
-                if random.randint(0, 4) == 1:
-                    obstacles[y, x] = 1
-        return obstacles
+        return np.random.choice(
+            [0, 1],
+            size=(self._rows, self._cols),
+            replace=True,
+            p=[
+                1 - self._probability_of_obstacles,
+                self._probability_of_obstacles
+            ]
+        )
 
     def _create_grid_map(self) -> dict[tuple, Grid]:
         # Setup dictionary of Grids
@@ -80,9 +100,16 @@ class Environment:
         return grid_map
 
     def _populate_grid_map(self) -> None:
-        # TODO: replace with actual flexible creature population, possibly via builder pattern
-        for _ in range(0, 4):
-            self._get_random_grid().add_occupant(Rabbit())
+        for _ in range(self._init_num_bears):
+            self._get_random_grid().add_occupant(Bear((random.random()*2)-2))
+        for _ in range(self._init_num_wolves):
+            self._get_random_grid().add_occupant(Wolf((random.random()*2)-2))
+        for _ in range(self._init_num_foxes):
+            self._get_random_grid().add_occupant(Fox((random.random()*2)-2))
+        for _ in range(self._init_num_deer):
+            self._get_random_grid().add_occupant(Deer((random.random()*2)-2))
+        for _ in range(self._init_num_rabbits):
+            self._get_random_grid().add_occupant(Rabbit((random.random()*2)-2))
 
     def attach(self, new_observer: Plot):
         self._observers.append(new_observer)
@@ -91,40 +118,42 @@ class Environment:
         for observer in self._observers:
             observer.update(self._iter_counter, animal_populations)
 
-    def _count_animal_populations(self) -> dict[str, int]:
+    def count_animal_populations(self) -> dict[str, int]:
         population_counter: dict[str, int] = {
             animal: 0 for animal in self._animals_list
         }
         for grid in self._grid_map.values():
             for occupant in grid.occupants:
-                match occupant:
-                    # case Bear:
-                    #     population_counter['bear'] += 1
-                    # case Wolf:
-                    #     population_counter['wolf'] += 1
-                    # case Fox:
-                    #     population_counter['fox'] += 1
-                    # case Deer:
-                    #     population_counter['deer'] += 1
-                    # case Rabbit:
-                    #     population_counter['rabbit'] += 1
-                    case _:
-                        raise ValueError("Unknown animal type")
-
+                if(occupant.alive):
+                    match occupant:
+                        case Bear():
+                            population_counter['bear'] += 1
+                        case Wolf():
+                            population_counter['wolf'] += 1
+                        case Fox():
+                            population_counter['fox'] += 1
+                        case Deer():
+                            population_counter['deer'] += 1
+                        case Rabbit():
+                            population_counter['rabbit'] += 1
+                        case _:
+                            raise ValueError("Unknown animal type")
+                else:
+                    population_counter['carrion'] += 1
         return population_counter
 
     def step(self):
+        populations = self.count_animal_populations()
+        self._notify_observers(populations)
+
         actions = []
-        for g in self._grid_map.values():
-            actions += g.step()
-        for a in actions:
-            a.execute()
-        pass
+        for grid in self._grid_map.values():
+            actions += grid.step()
+        for action in actions:
+            #print(action)
+            action.execute()
+
+        self._iter_counter += 1
 
     def _get_random_grid(self):
-        y = random.randint(0, self._rows - 1)
-        x = random.randint(0, self._cols - 1)
-        while self._obstacle_grid[y, x] == 1:
-            y = random.randint(0, self._rows - 1)
-            x = random.randint(0, self._cols - 1)
-        return self._grid_map[y, x]
+        return random.choice(list(self._grid_map.values()))

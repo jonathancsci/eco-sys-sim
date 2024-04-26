@@ -2,10 +2,6 @@ from .action import Action
 
 
 class MoveAction(Action):
-    # current grid
-    @property
-    def current_grid(self):
-        return self._current_grid
 
     # target grid
     @property
