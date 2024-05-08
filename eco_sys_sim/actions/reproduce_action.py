@@ -27,11 +27,10 @@ class ReproduceAction(Action):
     def action(self):
         if self.mate.alive and self.mate in self.current_grid.occupants:
             self.current_grid.add_occupant(self.offspring())
-        # important note: ask Jonathan if python has garbage collection, if not then there needs to be a way to delete the baby if the animal dies before taking their turn
+
 
 class RabbitReproduceAction(ReproduceAction):
     def action(self):
         if self.mate.alive and self.mate in self.current_grid.occupants:
             self.current_grid.add_occupant(self.offspring())
             self.current_grid.add_occupant(self.offspring())
-        # important note: ask Jonathan if python has garbage collection, if not then there needs to be a way to delete the baby if the animal dies before taking their turn

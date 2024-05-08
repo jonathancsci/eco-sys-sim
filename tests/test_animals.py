@@ -10,10 +10,10 @@ from eco_sys_sim.grid import Grid
 class TestAnimals:
     def simple_choice_area(self):
         area = [Grid()]
-        for i in range(1,3):
+        for i in range(1, 3):
             area.append(Grid())
-            area[i].neighbors.append(area[i-1])
-            area[i-1].neighbors.append(area[i])
+            area[i].neighbors.append(area[i - 1])
+            area[i - 1].neighbors.append(area[i])
         return area
 
     def test_size(self):
@@ -60,7 +60,7 @@ class TestAnimals:
         action = wolf.step(area[1])
         action.execute()
         assert wolf in area[1].occupants
-        while(deer.alive):
+        while deer.alive:
             action.execute()
             wolf.energy = 20
         assert not deer.alive
@@ -84,41 +84,41 @@ class TestAnimals:
         assert rabbit in area[2].occupants
 
     def test_feeding(self):
-        #setup
+        # setup
         area = self.simple_choice_area()
         area[1].grass_level = 0
         area[2].grass_level = 0
         area[0].grass_level = 20
         deer = Deer()
         area[1].add_occupant(deer)
-        #deer approaches grass
+        # deer approaches grass
         action = deer.step(area[1])
         action.execute()
         assert deer in area[0].occupants
-        #deer grazes
+        # deer grazes
         action = deer.step(area[0])
         action.execute()
         assert deer.energy == 9.75
-        #bear approaches deer
+        # bear approaches deer
         bear = Bear()
         area[1].add_occupant(bear)
         action = bear.step(area[1])
         action.execute()
         assert bear in area[0].occupants
-        #bear kills deer
+        # bear kills deer
         action = bear.step(area[0])
-        while(deer.alive):
+        while deer.alive:
             action.execute()
             bear.energy = 20
-        #bear eats deer
+        # bear eats deer
         bearergy = bear.energy
         action = bear.step(area[0])
         action.execute()
         assert not deer in area[0].occupants
-        assert bear.energy == bearergy+deer.nutritional_value()
-    
+        assert bear.energy == bearergy + deer.nutritional_value()
+
     def test_mating(self):
-        #setup
+        # setup
         area = self.simple_choice_area()
         fox1 = Fox()
         fox2 = Fox()
@@ -126,17 +126,16 @@ class TestAnimals:
         area[0].add_occupant(fox2)
         fox1.energy = 30
         fox2.energy = 30
-        #fox approaches mate
+        # fox approaches mate
         action = fox1.step(area[1])
         action.execute()
         assert fox1 in area[0].occupants
-        #fox mates
+        # fox mates
         action = fox1.step(area[0])
         action.execute()
         assert len(area[0].occupants) == 3
-        #fox is tired
+        # fox is tired
         fox1.energy = 2
         action = fox1.step(area[0])
         action.execute()
-        assert len(area[0].occupants)+len(area[1].occupants) == 3
-
+        assert len(area[0].occupants) + len(area[1].occupants) == 3

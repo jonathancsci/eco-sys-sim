@@ -2,7 +2,6 @@ from .action import Action
 
 
 class MoveAction(Action):
-
     # target grid
     @property
     def target_grid(self):

@@ -10,7 +10,7 @@ class Plot:
         ax: Axes | None = None,
         animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit", "carrion"],
     ):
-        if ax is None: # For tests
+        if ax is None:  # For tests
             ax = plt.subplots()[1]
         self._ax: Axes = ax
         self._x_iters: deque[int] = deque(maxlen=50)

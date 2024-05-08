@@ -30,7 +30,7 @@ class TestActions:
         grid.add_occupant(fox)
         grid.add_occupant(rabbit)
         action = AttackAction(fox, 1, grid, rabbit)
-        while(rabbit.alive):
+        while rabbit.alive:
             action.execute()
             fox.energy = 20
         assert not rabbit.alive
@@ -72,7 +72,7 @@ class TestActions:
     def test_rest(self):
         grid = Grid()
         rabbit = Rabbit()
-        action = RestAction(rabbit,grid)
+        action = RestAction(rabbit, grid)
         action.execute()
         action.execute()
         action.execute()
@@ -84,7 +84,7 @@ class TestActions:
         rabbit = Rabbit()
         grid.add_occupant(fox)
         grid.add_occupant(rabbit)
-        fox.energy = .1
+        fox.energy = 0.1
         action = AttackAction(fox, 1, grid, rabbit)
         action.execute()
         assert not fox.alive

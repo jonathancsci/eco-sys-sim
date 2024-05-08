@@ -74,7 +74,7 @@ def main(
             init_num_wolves,
             init_num_foxes,
             init_num_deer,
-            init_num_rabbits
+            init_num_rabbits,
         )
         returned_status, final_populations = ecosystem.run_simulation(num_iters)
         final_table = create_final_table(final_populations)
@@ -89,10 +89,9 @@ def main(
         console.print(final_table)
 
     except Exception as e:
-        # console.print("Oh no, something went wrong")
-        # console.print(e)
-        # raise typer.Exit(code=1)
-        raise Exception(e)
+        console.print("Oh no, something went wrong")
+        console.print(e)
+        raise typer.Exit(code=1)
 
 
 def create_init_table(

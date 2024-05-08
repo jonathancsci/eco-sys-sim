@@ -17,9 +17,7 @@ class TestEnvironment:
     def test_constructor(self):
         assert self.environment._rows == 5
         assert self.environment._cols == 10
-        total_animal_count = sum(
-            self.environment.count_animal_populations().values()
-        )
+        total_animal_count = sum(self.environment.count_animal_populations().values())
         assert total_animal_count == 50
 
     def test_obstacle_grid(self):

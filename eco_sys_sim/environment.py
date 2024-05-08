@@ -21,7 +21,7 @@ class Environment:
         init_num_foxes: int = 5,
         init_num_deer: int = 10,
         init_num_rabbits: int = 30,
-        animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit", "carrion"]
+        animals_list: list[str] = ["bear", "wolf", "fox", "deer", "rabbit", "carrion"],
     ):
         self._rows: int = rows
         self._cols: int = cols
@@ -70,10 +70,7 @@ class Environment:
             [0, 1],
             size=(self._rows, self._cols),
             replace=True,
-            p=[
-                1 - self._probability_of_obstacles,
-                self._probability_of_obstacles
-            ]
+            p=[1 - self._probability_of_obstacles, self._probability_of_obstacles],
         )
 
     def _create_grid_map(self) -> dict[tuple, Grid]:
@@ -101,15 +98,15 @@ class Environment:
 
     def _populate_grid_map(self) -> None:
         for _ in range(self._init_num_bears):
-            self._get_random_grid().add_occupant(Bear((random.random()*2)-2))
+            self._get_random_grid().add_occupant(Bear((random.random() * 2) - 2))
         for _ in range(self._init_num_wolves):
-            self._get_random_grid().add_occupant(Wolf((random.random()*2)-2))
+            self._get_random_grid().add_occupant(Wolf((random.random() * 2) - 2))
         for _ in range(self._init_num_foxes):
-            self._get_random_grid().add_occupant(Fox((random.random()*2)-2))
+            self._get_random_grid().add_occupant(Fox((random.random() * 2) - 2))
         for _ in range(self._init_num_deer):
-            self._get_random_grid().add_occupant(Deer((random.random()*2)-2))
+            self._get_random_grid().add_occupant(Deer((random.random() * 2) - 2))
         for _ in range(self._init_num_rabbits):
-            self._get_random_grid().add_occupant(Rabbit((random.random()*2)-2))
+            self._get_random_grid().add_occupant(Rabbit((random.random() * 2) - 2))
 
     def attach(self, new_observer: Plot):
         self._observers.append(new_observer)
@@ -124,22 +121,22 @@ class Environment:
         }
         for grid in self._grid_map.values():
             for occupant in grid.occupants:
-                if(occupant.alive):
+                if occupant.alive:
                     match occupant:
                         case Bear():
-                            population_counter['bear'] += 1
+                            population_counter["bear"] += 1
                         case Wolf():
-                            population_counter['wolf'] += 1
+                            population_counter["wolf"] += 1
                         case Fox():
-                            population_counter['fox'] += 1
+                            population_counter["fox"] += 1
                         case Deer():
-                            population_counter['deer'] += 1
+                            population_counter["deer"] += 1
                         case Rabbit():
-                            population_counter['rabbit'] += 1
+                            population_counter["rabbit"] += 1
                         case _:
                             raise ValueError("Unknown animal type")
                 else:
-                    population_counter['carrion'] += 1
+                    population_counter["carrion"] += 1
         return population_counter
 
     def step(self):
@@ -150,7 +147,6 @@ class Environment:
         for grid in self._grid_map.values():
             actions += grid.step()
         for action in actions:
-            #print(action)
             action.execute()
 
         self._iter_counter += 1
